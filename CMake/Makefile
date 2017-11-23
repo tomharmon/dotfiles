@@ -1,5 +1,5 @@
 
-BIN  := EXECUTABLE_NAME
+BIN  := nush
 SRCS := $(wildcard *.c)
 OBJS := $(SRCS:.c=.o)
 
