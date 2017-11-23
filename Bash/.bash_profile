@@ -1,10 +1,10 @@
 
 # Make terminal better with macros
-alias ls = 'ls -GAp'                    	     # Better 'ls' command
+alias ll='ls -GAp'                    	     # Better 'ls' command
 cd() { builtin cd "$@"; ls; }			     # Always list directory contents on cd
 
 # Networking
-#alias myip = 'curl ip.appspot.com'		     # find my IP
+#alias myip='curl ip.appspot.com'		     # find my IP
 #alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
 #alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
 #alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
