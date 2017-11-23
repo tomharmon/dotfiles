@@ -40,4 +40,4 @@ Currently commented out macros:
 | herr | `tail /var/log/httpd/error_log` | Tails HTTP error logs |
 | apacheLogs | `less +F /var/log/apache2/error_log` | Show Apache error logs |
 | httpHeaders | `/usr/bin/curl -I -L $@ ` | Grabs headers from web page | 
-| httpDebug | `/usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n"` | Download a web page and show info on how long it takes |
+| httpDebug | `/usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n` | Download a web page and show info on how long it takes |
