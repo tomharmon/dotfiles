@@ -11,6 +11,7 @@ RUN \
   apt-get install -y build-essential && \
   apt-get install -y software-properties-common && \
   apt-get install -y byobu curl git htop man unzip vim wget time && \
+  apt-get install -y fuse && \
   apt-get update -y && \
   rm -rf /var/lib/apt/lists/*
 
