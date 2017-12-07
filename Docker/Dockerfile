@@ -13,7 +13,8 @@ RUN \
   apt-get install -y software-properties-common && \
   apt-get install -y byobu curl git htop man unzip vim wget time && \
   apt-get install -y fuse && \
+  apt-get install -y git && \
+  apt-get install -y tmux && \
   apt-get update -y && \
   apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/*
-
