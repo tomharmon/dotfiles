@@ -1,17 +1,17 @@
 
 BIN  := name
-SRCS := $(wildcard src/*.c)
-OBJS := $(SRCS:.c=.o)
+SRCS := $(wildcard src/*.cpp)
+OBJS := $(SRCS:.cpp=.o)
 HDRS := $(wildcard include/*.h)
 
-CFLAGS := -g -std=gnu11
+CFLAGS := -g -std=gnu++11
 LDLIBS :=
 
 $(BIN): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LDLIBS)
+	g++ -o $@ $(OBJS) $(LDLIBS)
 
-%.o : %.c $(wildcard *.h)
-	$(CC) $(CFLAGS) -c -o $@ $<
+%.o : %.cpp $(HDRS)
+	g++ $(CFLAGS) -cpp -o $@ $<
 
 clean:
 	rm -rf *.o $(BIN) valgrind.out
