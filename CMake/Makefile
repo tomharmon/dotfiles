@@ -1,5 +1,5 @@
 
-BIN  := name
+BIN  := EXECUTABLE_NAME
 SRCS := $(wildcard src/*.c)
 OBJS := $(SRCS:.c=.o)
 HDRS := $(wildcard include/*.h)
