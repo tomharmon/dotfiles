@@ -1,3 +1,4 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH";
+export export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH";

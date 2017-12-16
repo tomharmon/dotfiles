@@ -43,9 +43,6 @@ set nocompatible
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 
-" Change mapleader
-let mapleader=","
-
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps

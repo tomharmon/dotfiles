@@ -1,3 +1,8 @@
+XUbuntu Docker dotfiles
+======
+
+These dockerfiles are meant to make using the associated Dockerfile more pleasant as a Mac user.
+
 Dotfiles
 ======
 
@@ -11,30 +16,17 @@ Aliases
 |:----------:|:-------------------:|:---------------------:|
 | .. | `cd ..` | Switch to the parent directory |
 | ... | `cd ../..` | Switch to the grandparent's directory |
-| dl | `cd ~/Downloads` | Switch to the Downloads folder |
-| code | `cd ~/Documents/code` | Switch to my folder containing most of my coding projects |
-
 
 #### General Commands
 |    Macro   |      Function       |        Explanation    |
 |:----------:|:-------------------:|:---------------------:|
 |  ll  |  `ls -GAp`      |   Display ALL directory contents, colorized, and mark directories with slashes |
 |  cd  |  `cd`             |                         Always list directory contents on cd                   |
-| cleanupDS  | `find . -type f -name '*.DS_Store' -ls -delete` | Delete .DS_Store files  |
-| finderShowHidden | `defaults write com.apple.finder ShowAllFiles TRUE`  | Show hidden files in Finder |
-| finderHideHidden | `defaults write com.apple.finder ShowAllFiles FALSE` | Hide hidden files in Finder |
-| lscleanup | `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder` | Clean up LaunchServices to remove duplicates in teh "Open With" menu |
 | c | `tr -d '\n' | pbcopy` | Trim new lines and copy to clipboard |
-| emptytrash | `alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"` | Empty the trash for all mounted volumes and clear Apple's System Logs |
-| show | `defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder` | Show hidden files in Finder |
-| hide | `defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder` | Hide hidden files in Finder |
-| hidedesktop | `defaults write com.apple.finder CreateDesktop -bool false && killall Finder` | Hide all Desktop icons (for presenting) |
-| showdesktop | `defaults write com.apple.finder CreateDesktop -bool true && killall Finder` | Show all Desktop icons |
 | map | `xargs -n1` | An intuitive map function, e.g. to list all directories that contain a certain file:
  `find . -name .gitattributes | map dirname`|
 | reload | `exec ${SHELL} -l` | Reload the shell |
 | path | `echo -e ${PATH//:/\\n}` | Print each PATH entry on a new line |
-| fix_brew | `sudo chown -R $USER /usr/local/` | Fix errors writing when Homebrew tries to write to protected directories |
 
 
 #### Networking
@@ -150,35 +142,4 @@ This file does the following:
 - Enhances auto-completion
 - Highlights searches dynamically
 - Ignores case of searches
-
-Brewfile
-------
-This file installs the following brews:
-- coreutils 
-- findutils
-- moreutils
-- bash
-- tmux
-- git
-- wget
-- vim
-- gnugp
-- openssh
-- grep
-- openssl
-- pkg-config
-- python3
-- yarn
-
-
-And installs the following casks:
-- atom
-- docker
-- google-chrome
-- github
-- slack
-- spotify
-- sublime-text
-- iTerm
-
 

@@ -17,13 +17,9 @@ brew 'moreutils'
 brew 'bash'
 brew 'tmux'
 
-# Install more recent versions of some macOS tools
-brew 'grep'
-
 # Install Binaries
 brew 'git'
 brew 'wget'
-
 brew 'vim'
 
 # Install GnuPG to enable PGP-signing commits.
@@ -31,16 +27,24 @@ brew 'gnupg'
 
 # Install more recent versions of some macOS tools.
 brew 'openssh'
+brew 'grep'
+brew 'openssl'
+brew 'pkg-config'
+brew 'python3'
+
+# Install yarn, a JavaScript package manager
+brew 'yarn'
 
 
 # Apps
 #cask 'atom'
-#$cask 'docker'
+#cask 'docker'
 #cask 'google-chrome'
 #cask 'github'
 #cask 'slack'
 #cask 'spotify'
 #cask 'sublime-text'
+#cask 'iTerm'
 
 # Install Mac App Store apps
 #mas 'trello'

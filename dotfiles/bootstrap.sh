@@ -5,7 +5,7 @@ echo "Bootstrapping dotfiles \n";
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-git pull origin master;
+#git pull origin master;
 
 function doIt() {
 	rsync --exclude ".git/" \
@@ -42,11 +42,8 @@ brew update
 # Install all applications with brew in Brewfile
 brew tap homebrew/bundle
 brew bundle
-
-
 brew upgrade
-
 brew cleanup
 
-
+# fix issues with gpg as installed from homebrew
 git config --global gpg.program $(which gpg)
