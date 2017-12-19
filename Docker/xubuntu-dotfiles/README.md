@@ -3,11 +3,6 @@ XUbuntu Docker dotfiles
 
 These dockerfiles are meant to make using the associated Dockerfile more pleasant as a Mac user.
 
-Dotfiles
-======
-
-These dotfiles are meant to make developing on a Mac more pleasant. What follows is an explanation of what each script does and/or what functionality the commands in that file provide.
-
 Aliases
 ------
 
@@ -73,7 +68,6 @@ Functions
 |:----------:|:-------------------:|:---------------------:|
 | mkd | `mkdir -p "$@" && cd "$_"` | Creates and enters a new directory of the given name |
 | cd | `builtin cd "$@"; ll` | Always lists directory contents upon cd |
-| cdf | `cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"` | Change the working directory to the most recently open Finder window location |
 | targz | `too long to list` | Create a .tar.gz archive with `zopfli`, `pigz` or `gzip` for compression and automatically exclude .DS_Store files |
 
 
