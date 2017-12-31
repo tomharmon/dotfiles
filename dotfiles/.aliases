@@ -72,6 +72,6 @@ alias reload="exec ${SHELL} -l"
 alias path='echo -e ${PATH//:/\\n}'
 
 # fix homebrew writing errors
-alias fix_brew='sudo chown -R $USER /usr/local/'
+alias fix_brew='sudo chown -R $USER /usr/local/; sudo chown -R $USER /usr/bin/'
 
 
