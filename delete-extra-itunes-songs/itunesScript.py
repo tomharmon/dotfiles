@@ -4,6 +4,8 @@
 # This will navigate to the itunes media folder and delete any file that isn't contained in 
 # The itunes Libaray.xml file
 import os
+import time
+import FoundationPlist as fpl
 from urllib.parse import urlparse
 import plistlib as pl
 
@@ -12,6 +14,7 @@ musicPath = os.path.expanduser("~/Music/iTunes/iTunes Media/Music/")
 
 # Return an array of all Artist Names on the hard drive
 def getArtists():
+	print("Getting artist names\n")
 	directory = os.fsencode(musicPath)
 	artistNames = []
 	for subDir in os.listdir(directory):
@@ -23,17 +26,25 @@ def getArtists():
 # in the iTunes Library
 def removeUnusedArtistsSongs(artistName, songsToDelete):
 	directoryPath = musicPath + artistName
+	print("removeUnusedArtistsSongs: " + directoryPath + '\n')
 	rootDirectory = os.fsencode(directoryPath)
+	print("rootDirectory " + rootDirectory + '\n')
 	for subdir, dirs, files in os.walk(rootDirectory):
 		for file in files:
 			fileLocation = file.fsdecode(file)
+			print("checking if " + fileLocation + " exists in library\n")
+			time.sleep(4)
 			isFileInLibrary = false
-			songName = " "
+			songName = ""
 			for dict in tracks:
 				currentTrackLocation = urlparse.unquote(dict['Location'])
+				print("current track location: " + currentTrackLocation + '\n')
+				time.sleep(4)
 				isFileInLibrary = isFileInLibrary or fileLocation == currentTrackLocation
 				if fileLocation == currentTrackLocation:
 					songName = dict['Name']
+					print("songName " + songName + " found in library\n")
+				sys.exit(0)
 			if not isFileInLibrary:
 				# the file was not in the library, remove it from the hard disk
 				# for now, add it to a list of songs and then return them
@@ -41,9 +52,10 @@ def removeUnusedArtistsSongs(artistName, songsToDelete):
 
 
 def main():
+	print("hello world\n")
 	# open the plist file that describes the songs the iTunes library is supposed to contain
 	# if this gives errors, open the file name first as a binary file object
-	itunesLibraryFile = pl.readPlist("./Library.xml")
+	itunesLibraryFile = fpl.readPlist("./Library.xml")
 
 	# get the dictionary for all tracks
 	tracks = itunesLibraryFile["Tracks"]
@@ -51,9 +63,10 @@ def main():
 	# get a list of the names of all Artists on the physical hard drive
 	artistNames = getArtists()
 
-	# print the songs to delete
-	for song in songsToDelete:
-		print(song + '\n')
+	# print the artists
+	print("printing artist names\n")
+	for name in artistNames:
+		print(name + '\n')
 
 	print('\n\n\n\n')
 
@@ -67,6 +80,7 @@ def main():
 		removeUnusedArtistsSongs(artist, songsToDelete)
 
 	# print the songs to delete
+	print("printing songs to delete\n")
 	for song in songsToDelete:
 		print(song + '\n')
 
@@ -74,3 +88,6 @@ def main():
 
 
 	sys.exit(0)
+
+if __name__ == '__main__':
+	main()
