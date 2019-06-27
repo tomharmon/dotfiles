@@ -2,10 +2,10 @@
 
 # Taps
 tap 'caskroom/cask'
-tap 'homebrew/bundle'
 
 # Install GNU core utilities (those that come with macOS are outdated)
 brew 'coreutils'
+brew 'cmake'
 
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
 brew 'findutils'
@@ -35,16 +35,25 @@ brew 'python3'
 # Install yarn, a JavaScript package manager
 brew 'yarn'
 
+brew 'zsh'
+brew 'zsh-completions'
+brew 'z'
+brew 'composer'
+brew 'mas'
+brew 'hub'
 
 # Apps
-#cask 'atom'
-#cask 'docker'
-#cask 'google-chrome'
-#cask 'github'
-#cask 'slack'
-#cask 'spotify'
-#cask 'sublime-text'
-#cask 'iTerm'
+cask 'atom'
+cask 'docker'
+cask 'google-chrome'
+cask 'github'
+cask 'slack'
+cask 'spotify'
+cask 'sublime-text'
+cask 'iterm2'
+cask 'postman'
+cask 'visual-studio-code'
+
 
 # Install Mac App Store apps
 #mas 'trello'
