@@ -1,5 +1,5 @@
 {
-  "always_show_minimap_viewport": true,
+  "always_show_minimap_viewport": false,
   "bold_folder_labels": true,
   "caret_extra_bottom": 2,
   "caret_extra_top": 2,
