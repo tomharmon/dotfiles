@@ -92,55 +92,43 @@ killall Finder
 printf "\n${BLUE}Installing XCode Command Line Tools...${NORMAL}\n"
 eval "xcode-select --install"
 
-# Install NVM
-printf "\n${GREEN}Installing NVM...${NORMAL}\n"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-nvm install node --lts
-nvm alias default node
-
 # Install Homebrew and its packages
 eval "sh scripts/brew.sh"
 
-# Install Oh My Zsh
-printf "\n${BLUE}Installing Oh My Zsh...${NORMAL}\n"
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# Install Oh My Fish
+printf "\n${BLUE}Installing Oh My Fish...${NORMAL}\n"
+curl -L https://get.oh-my.fish | fish
 
-# Copy ZSH config
-printf "${YELLOW}Copying ZSH config into ~/.zshrc...${NORMAL}\n"
-eval "cp .zshrc ~/.zshrc"
+# Copy Fish config
+printf "${YELLOW}Copying Fish config into ~/.zshrc...${NORMAL}\n"
+# TODO
+#eval "cp .zshrc ~/.zshrc"
 
-eval "git clone https://github.com/denysdovhan/spaceship-prompt.git '$ZSH_CUSTOM/themes/spaceship-prompt'"
-ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+# TODO: install oh my fish theme
 
-
-# Refresh ZSH config
-eval "source ~/.zshrc"
-
+# Refresh Fish config
+# TODO
+#eval "source ~/.zshrc"
 
 # set zsh to default
-eval "chsh -s /bin/zsh"
+#TODO
+#eval "chsh -s /bin/fish"
+
+# TODO: copy neovim config
 
 # copy git files
 printf "${YELLOW}Copying git files into ~/...${NORMAL}\n"
 eval "cp .gitignore ~/"
 #eval "cp .gitconfig ~/"
 
-# Install fonts
-eval "sh scripts/fonts.sh"
-
 # Set up VS Code Settings and Extensions
 eval "sh scripts/vscode.sh"
 
+# TODO: set up intellij settings
+
 # Add global NPM packages
-printf "\n${GREEN}Installing global npm packages for Spaceship ZSH Prompt, Trash CLI, Gulp CLI, Docker CLI, Gatsby CLI, Vue CLI...${NORMAL}\n"
-eval "npm install -g spaceship-prompt trash-cli gulp-cli docker-cli gatsby-cli @vue/cli vsce yo"
-
-# Open links for apps that can't be downloaded via brew cask
-printf "\n${BLUE}Opening links for apps to download...${NORMAL}\n"
-
-
-# Development
-eval "open https://developer.apple.com/xcode/"
+printf "\n${GREEN}Installing global npm packages for ${NORMAL}\n"
+eval "npm install -g gatsby-cli prettier"
 
 
 # Follow the instructions on GitHub to generate a new SSH key and add it to your Github account.

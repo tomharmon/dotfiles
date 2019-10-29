@@ -12,10 +12,6 @@ NORMAL="\033[0;39m"
 printf "${BLUE}Copying VS Code user settings...${NORMAL}\n\n"
 eval "cp ./vscode/settings.json ~/Library/Application\ Support/Code/User"
 
-# # Copy VS Code keybindings
-printf "${BLUE}Copying VS Code keybindings...${NORMAL}\n"
-eval "cp ./vscode/keybindings.json ~/Library/Application\ Support/Code/User"
-
 # # Install vscode extensions from the list in extensions.txt
 printf "${BLUE}Installing VS Code extensions...${NORMAL}\n"
 

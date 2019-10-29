@@ -1,9 +1,9 @@
 formulahendry.auto-close-tag
 formulahendry.auto-rename-tag
-naumovs.color-highlight
 bierner.color-info
 dbaeumer.vscode-eslint
 kumar-harsh.graphql-for-vscode
-brittanychiang.halcyon-vscode
 esbenp.prettier-vscode
 rust-lang.rust
+eamodio.gitlens
+vscodevim.vim

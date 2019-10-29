@@ -13,14 +13,14 @@ brew 'findutils'
 # Install some other useful utilities like `sponge`.
 brew 'moreutils'
 
-# Install Bash 4
-brew 'bash'
+brew 'fish'
 brew 'tmux'
 
 # Install Binaries
 brew 'git'
 brew 'wget'
 brew 'vim'
+brew 'neovim'
 
 # Install GnuPG to enable PGP-signing commits.
 brew 'gnupg'
@@ -35,8 +35,6 @@ brew 'python3'
 # Install yarn, a JavaScript package manager
 brew 'yarn'
 
-brew 'zsh'
-brew 'zsh-completions'
 brew 'z'
 brew 'composer'
 brew 'mas'
