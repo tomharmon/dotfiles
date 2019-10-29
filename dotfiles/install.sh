@@ -121,6 +121,8 @@ printf "${YELLOW}Copying git files into ~/...${NORMAL}\n"
 eval "cp .gitignore ~/"
 #eval "cp .gitconfig ~/"
 
+#TODO: copy linting files
+
 # Set up VS Code Settings and Extensions
 eval "sh scripts/vscode.sh"
 
