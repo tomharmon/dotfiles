@@ -90,21 +90,20 @@ killall Finder
 
 # Install XCode Command Line Tools
 printf "\n${BLUE}Installing XCode Command Line Tools...${NORMAL}\n"
-eval "xcode-select --install"
+xcode-select --install
 
 # Install Homebrew and its packages
-eval "sh scripts/brew.sh"
+sh scripts/brew.sh
 
 # Install Oh My Fish
 printf "\n${BLUE}Installing Oh My Fish...${NORMAL}\n"
 curl -L https://get.oh-my.fish | fish
+omf install simple-ass-prompt
 
 # Copy Fish config
-printf "${YELLOW}Copying Fish config into ~/.zshrc...${NORMAL}\n"
+printf "${YELLOW}Copying Fish config${NORMAL}\n"
 # TODO
 #eval "cp .zshrc ~/.zshrc"
-
-# TODO: install oh my fish theme
 
 # Refresh Fish config
 # TODO
@@ -112,25 +111,26 @@ printf "${YELLOW}Copying Fish config into ~/.zshrc...${NORMAL}\n"
 
 # set zsh to default
 #TODO
-#eval "chsh -s /bin/fish"
+echo (which fish) >> /etc/shells
+chsh -s (which fish)
 
 # TODO: copy neovim config
 
 # copy git files
 printf "${YELLOW}Copying git files into ~/...${NORMAL}\n"
-eval "cp .gitignore ~/"
+cp .gitignore ~/
 #eval "cp .gitconfig ~/"
 
 #TODO: copy linting files
 
 # Set up VS Code Settings and Extensions
-eval "sh scripts/vscode.sh"
+sh scripts/vscode.sh
 
 # TODO: set up intellij settings
 
 # Add global NPM packages
 printf "\n${GREEN}Installing global npm packages for ${NORMAL}\n"
-eval "npm install -g gatsby-cli prettier"
+npm install -g gatsby-cli prettier eslint
 
 
 # Follow the instructions on GitHub to generate a new SSH key and add it to your Github account.
