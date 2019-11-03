@@ -128,6 +128,10 @@ sh scripts/vscode.sh
 
 # TODO: set up intellij settings
 
+#TODO: install tmux config
+#ln -s -f .tmux/.tmux.conf
+#cp .tmux/.tmux.conf.local 
+
 # Add global NPM packages
 printf "\n${GREEN}Installing global npm packages for ${NORMAL}\n"
 npm install -g gatsby-cli prettier eslint
