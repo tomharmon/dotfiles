@@ -136,6 +136,7 @@ sh scripts/vscode.sh
 printf "\n${GREEN}Installing global npm packages for ${NORMAL}\n"
 npm install -g gatsby-cli prettier eslint
 
+#TODO: auto install nerd fonts https://github.com/ryanoasis/nerd-fonts
 
 # Follow the instructions on GitHub to generate a new SSH key and add it to your Github account.
 printf "\n${WHITE}==============================================================================
