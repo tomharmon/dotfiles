@@ -70,6 +70,9 @@ set softtabstop=2
 set smartcase
 set smarttab
 set ttyfast
+set ttimeout
+set ttimeoutlen=1
+set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 set undofile
 " turn hybrid line numbers on
 :set number relativenumber
