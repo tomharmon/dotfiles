@@ -9,7 +9,7 @@ let mapleader = "\<Space>"
 set nocompatible
 filetype off
 set rtp+=~/dev/others/base16/builder/templates/vim/
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 
 " Load plugins
 " VIM enhancements
@@ -51,12 +51,12 @@ call plug#end()
 filetype plugin indent on
 
 
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme='gruvbox-material'
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#whitespace#enabled = 1
-"let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox-material'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 1
 
 set number
 set autoread
@@ -76,13 +76,17 @@ set undofile
 :set nu rnu
 
 " copy/paste to system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
+
+" change cursor in insert mode
+au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+au InsertLeave * silent execute "!echo -en \<esc>[2 q"
 
 syntax on
 syntax enable
 set t_Co=256
 set encoding=utf-8
-" set guifont=Hack
+set guifont=Hack
 set termguicolors
 set background=dark
 colorscheme gruvbox-material
