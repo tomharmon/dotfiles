@@ -18,6 +18,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-syntastic/syntastic'
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/vim-auto-save'
 
 " GUI enhancements
 Plug 'vim-airline/vim-airline'
@@ -79,6 +80,9 @@ set undofile
 " turn hybrid line numbers on
 :set number relativenumber
 :set nu rnu
+" auto wrap
+:set tw=100
+set colorcolumn=100
 
 " copy/paste to system clipboard
 set clipboard=unnamed
@@ -113,3 +117,5 @@ set splitright
 " open fzf in nerdtree easier
 nnoremap <silent> <C-p> :FZF<CR>
 let g:rustfmt_autosave = 1
+let g:auto_save_no_updatetime = 1
+let g:auto_save = 1
