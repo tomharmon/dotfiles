@@ -52,14 +52,6 @@ Plug 'scrooloose/nerdtree'
 call plug#end()
 filetype plugin indent on
 
-
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme='base16_gruvbox_dark_hard'
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#whitespace#enabled = 1
-"let g:airline#extensions#hunks#non_zero_only = 1
-
 set number
 set autoread
 set backspace=indent,eol,start
@@ -77,10 +69,10 @@ set ttimeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 set undofile
 " turn hybrid line numbers on
-:set number relativenumber
-:set nu rnu
+set number relativenumber
+set nu rnu
 " auto wrap
-:set tw=100
+set tw=100
 set colorcolumn=100
 
 " copy/paste to system clipboard
@@ -95,7 +87,6 @@ syntax enable
 set t_Co=256
 set encoding=utf-8
 " set guifont=Hack
-set termguicolors
 set background=dark
 colorscheme gruvbox-material
 
@@ -112,9 +103,8 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-
 " open fzf in nerdtree easier
 nnoremap <silent> <C-p> :FZF<CR>
-let g:rustfmt_autosave = 1
+" let g:rustfmt_autosave = 1
 let g:auto_save_no_updatetime = 1
 let g:auto_save = 1
