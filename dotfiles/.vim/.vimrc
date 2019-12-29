@@ -75,6 +75,7 @@ set nu rnu
 set tw=100
 set colorcolumn=100
 set wrap
+set linebreak
 
 " copy/paste to system clipboard
 set clipboard=unnamed
