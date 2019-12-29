@@ -74,6 +74,7 @@ set nu rnu
 " auto wrap
 set tw=100
 set colorcolumn=100
+set wrap
 
 " copy/paste to system clipboard
 set clipboard=unnamed
