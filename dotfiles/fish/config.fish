@@ -8,7 +8,7 @@ abbr -a gid 'git diff | bat'
 abbr -a giu 'git reset --soft HEAD~1'
 abbr -a ls 'exa -F --git-ignore'
 abbr -a la 'exa -la'
-abbr -a lt 'exa -laT -L 3 -I .git --git-ignore'
+abbr -a lt 'exa -laT -L 3 -I .git\|.idea --git-ignore'
 
 source $HOME/.cargo/env
 set -x TERM "xterm-256color"
