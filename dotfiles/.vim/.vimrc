@@ -9,7 +9,7 @@ let mapleader = "\<Space>"
 set nocompatible
 filetype off
 set rtp+=~/dev/others/base16/builder/templates/vim/
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 " Load plugins
 " VIM enhancements
 Plug 'ciaranm/securemodelines'
@@ -52,33 +52,41 @@ Plug 'scrooloose/nerdtree'
 call plug#end()
 filetype plugin indent on
 
+
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme='base16_gruvbox_dark_hard'
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#branch#enabled = 1
+"let g:airline#extensions#whitespace#enabled = 1
+"let g:airline#extensions#hunks#non_zero_only = 1
+
 set number
+set relativenumber
 set autoread
 set backspace=indent,eol,start
 set hlsearch
+noremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 set ignorecase
 set incsearch
 set mouse=a
 set shiftwidth=2
 set softtabstop=2
 set smartcase
-set smarttab
+" set smarttab
 set ttyfast
 set ttimeout
+set linebreak
 set ttimeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
-set undofile
 " turn hybrid line numbers on
-set number relativenumber
-set nu rnu
+set nu
+set rnu
 " auto wrap
 set tw=100
 set colorcolumn=100
-set wrap
-set linebreak
 
 " copy/paste to system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " change cursor in insert mode
 au InsertEnter * silent execute "!echo -en \<esc>[5 q"
@@ -88,7 +96,6 @@ syntax on
 syntax enable
 set t_Co=256
 set encoding=utf-8
-" set guifont=Hack
 set background=dark
 colorscheme gruvbox-material
 
@@ -105,8 +112,9 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
+
 " open fzf in nerdtree easier
 nnoremap <silent> <C-p> :FZF<CR>
-" let g:rustfmt_autosave = 1
+let g:rustfmt_autosave = 1
 let g:auto_save_no_updatetime = 1
 let g:auto_save = 1
