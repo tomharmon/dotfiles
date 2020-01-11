@@ -52,16 +52,6 @@ Plug 'scrooloose/nerdtree'
 call plug#end()
 filetype plugin indent on
 
-
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme='base16_gruvbox_dark_hard'
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#whitespace#enabled = 1
-"let g:airline#extensions#hunks#non_zero_only = 1
-
-set number
-set relativenumber
 set autoread
 set backspace=indent,eol,start
 set hlsearch
@@ -75,12 +65,13 @@ set smartcase
 " set smarttab
 set ttyfast
 set ttimeout
+set wrap
 set linebreak
 set ttimeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 " turn hybrid line numbers on
-set nu
-set rnu
+set number
+set relativenumber
 " auto wrap
 set tw=100
 set colorcolumn=100
@@ -118,3 +109,6 @@ nnoremap <silent> <C-p> :FZF<CR>
 let g:rustfmt_autosave = 1
 let g:auto_save_no_updatetime = 1
 let g:auto_save = 1
+
+" global compile settings for YCM && C/C++
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
