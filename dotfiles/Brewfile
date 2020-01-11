@@ -51,9 +51,3 @@ cask 'sublime-text'
 cask 'iterm2'
 cask 'postman'
 cask 'visual-studio-code'
-
-
-# Install Mac App Store apps
-#mas 'trello'
-#mas 'magnet'
-

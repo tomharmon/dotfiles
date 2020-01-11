@@ -102,24 +102,24 @@ omf install simple-ass-prompt
 
 # Copy Fish config
 printf "${YELLOW}Copying Fish config${NORMAL}\n"
-# TODO
-#eval "cp .zshrc ~/.zshrc"
+cp -r fish ~/.config/
 
-# Refresh Fish config
-# TODO
-#eval "source ~/.zshrc"
-
-# set zsh to default
-#TODO
+# set fish to default
 echo (which fish) >> /etc/shells
 chsh -s (which fish)
 
-# TODO: copy neovim config
+# copy vim config
+printf "${YELLOW}Copying vim config${NORMAL}\n"
+cp -r .vim ~/
+
+# copy YCM default c++ compilation file
+cp .ycm_extra_conf.py ~/
 
 # copy git files
-printf "${YELLOW}Copying git files into ~/...${NORMAL}\n"
+printf "${YELLOW}Copying git confg${NORMAL}\n"
 cp .gitignore ~/
-#eval "cp .gitconfig ~/"
+git config --global core.editor 'vim'
+git config --global core.excludesfile ~/.gitignore
 
 #TODO: copy linting files
 
@@ -147,5 +147,6 @@ ${WHITE}Make sure to follow the instructions on GitHub to generate a new SSH key
 
 ==============================================================================${NORMAL}\n"
 
-eval "open https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#generating-a-new-ssh-key"
-eval "open https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account"
+open
+https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#generating-a-new-ssh-key
+open https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account
