@@ -40,6 +40,9 @@ brew 'composer'
 brew 'mas'
 brew 'hub'
 
+# install glow, a markdown renderer
+brew 'install charmbracelet/homebrew-tap/glow'
+
 # Apps
 cask 'atom'
 cask 'docker'

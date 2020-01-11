@@ -108,6 +108,17 @@ cp -r fish ~/.config/
 echo (which fish) >> /etc/shells
 chsh -s (which fish)
 
+# install rust
+printf "${YELLOW}Installing rust${NORMAL}\n"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+printf "${YELLOW}Installing cargo tools${NORMAL}\n"
+source $HOME/.cargo/env
+cargo install exa
+cargo install ripgrep
+cargo install broot
+cargo install bat
+
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"
 cp -r .vim ~/
