@@ -73,8 +73,8 @@ set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 set number
 set relativenumber
 " auto wrap
-set tw=100
-set colorcolumn=100
+set tw=80
+set colorcolumn=80
 
 " copy/paste to system clipboard
 set clipboard=unnamedplus
