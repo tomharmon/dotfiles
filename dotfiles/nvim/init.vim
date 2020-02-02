@@ -113,9 +113,9 @@ set splitright
 " open fzf in nerdtree easier
 nnoremap <silent> <C-p> :FZF<CR>
 let g:rustfmt_autosave = 1
-let g:auto_save_no_updatetime = 1
-let g:auto_save = 1
-
+let g:auto_save_no_updatetime = 1 " dont let autosave modify 'updatetime'
+let g:auto_save = 1 " enable autosave on startup
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
 
 " Conqueror of Completion
