@@ -13,6 +13,7 @@ abbr -a .. 'cd ..'
 abbr -a ... 'cd ../..'
 abbr -a .... 'cd ../../..'
 abbr -a vim 'nvim'
+abbr -a bc 'bc -lq'
 
 source $HOME/.cargo/env
 set -x TERM "xterm-256color"
