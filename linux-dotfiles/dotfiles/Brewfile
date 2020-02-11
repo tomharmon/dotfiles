@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# Taps
+tap 'caskroom/cask'
+
+# Install GNU core utilities (those that come with macOS are outdated)
+brew 'coreutils'
+brew 'cmake'
+
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+brew 'findutils'
+
+# Install some other useful utilities like `sponge`.
+brew 'moreutils'
+
+brew 'fish'
+brew 'tmux'
+
+# Install Binaries
+brew 'git'
+brew 'wget'
+brew 'vim'
+brew 'neovim'
+
+# Install GnuPG to enable PGP-signing commits.
+brew 'gnupg'
+
+# Install more recent versions of some macOS tools.
+brew 'openssh'
+brew 'grep'
+brew 'openssl'
+brew 'pkg-config'
+brew 'python3'
+
+# Install yarn, a JavaScript package manager
+brew 'yarn'
+
+brew 'z'
+brew 'composer'
+brew 'mas'
+brew 'hub'
+
+# install glow, a markdown renderer
+brew 'install charmbracelet/homebrew-tap/glow'
+
+# Apps
+cask 'atom'
+cask 'docker'
+cask 'google-chrome'
+cask 'github'
+cask 'slack'
+cask 'spotify'
+cask 'sublime-text'
+cask 'iterm2'
+cask 'postman'
+cask 'visual-studio-code'
