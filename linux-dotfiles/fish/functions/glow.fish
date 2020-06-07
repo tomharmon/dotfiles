@@ -1,3 +1,5 @@
+
 function glow
-	/usr/bin/glow $argv -s dark | cat -n
+	/usr/bin/glow $argv -s dark | bat
 end
+

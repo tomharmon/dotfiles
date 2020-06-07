@@ -114,14 +114,23 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 printf "${YELLOW}Installing cargo tools${NORMAL}\n"
 source $HOME/.cargo/env
-cargo install exa
-cargo install ripgrep
-cargo install broot
 cargo install bat
+cargo install bindgen
+cargo install btm
+cargo install broot
+cargo install cargo-expand
+cargo install cargo-license
+cargo install cargo-update
+cargo install cbindgen
 cargo install fd-find
-# TODO: cargo install glow
+cargo install flamegraph
+cargo install git-journal
 cargo install grex
 cargo install hyperfine
+cargo install sccache
+cargo install tokei
+cargo install xsv
+cargo install zoxide
 
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"

@@ -19,6 +19,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/vim-auto-save'
+" search
+Plug 'haya14busa/incsearch.vim'
 
 " GUI enhancements
 Plug 'vim-airline/vim-airline'
@@ -45,7 +47,6 @@ Plug 'dag/vim-fish'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'udalov/kotlin-vim'
-
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 
@@ -57,10 +58,19 @@ filetype plugin indent on
 set autoread
 set backspace=indent,eol,start
 " search
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 set hlsearch
-noremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 set ignorecase
-set incsearch
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+"set incsearch
 " enable mouse
 set mouse=a
 " tabs/spaces
@@ -74,7 +84,7 @@ set ttyfast
 set ttimeout
 set wrap
 set linebreak
-set ttimeoutlen=1
+set timeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 " turn hybrid line numbers on
 set number
@@ -83,12 +93,13 @@ set relativenumber
 set tw=80
 set colorcolumn=80
 
+
 " copy/paste to system clipboard
 set clipboard=unnamedplus
 
 " change cursor in insert mode
-au InsertEnter * silent execute "!echo -en \<esc>[5 q"
-au InsertLeave * silent execute "!echo -en \<esc>[2 q"
+"au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+"au InsertLeave * silent execute "!echo -en \<esc>[2 q"
 
 syntax on
 syntax enable
@@ -113,10 +124,9 @@ set splitright
 " open fzf in nerdtree easier
 nnoremap <silent> <C-p> :FZF<CR>
 let g:rustfmt_autosave = 1
-let g:auto_save_no_updatetime = 1 " dont let autosave modify 'updatetime'
-let g:auto_save = 1 " enable autosave on startup
-let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-
+let g:auto_save_no_updatetime = 1
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
 
 " Conqueror of Completion
 
