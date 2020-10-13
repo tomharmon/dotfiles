@@ -3,3 +3,4 @@ formulahendry.auto-rename-tag
 bierner.color-info
 eamodio.gitlens
 vscodevim.vim
+jdinhlife.gruvbox
