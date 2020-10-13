@@ -136,9 +136,6 @@ cargo install zoxide
 printf "${YELLOW}Copying vim config${NORMAL}\n"
 cp -r .vim ~/
 
-# copy YCM default c++ compilation file
-cp .ycm_extra_conf.py ~/
-
 # copy git files
 printf "${YELLOW}Copying git confg${NORMAL}\n"
 cp .gitignore ~/

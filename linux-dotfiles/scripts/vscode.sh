@@ -9,6 +9,7 @@ WHITE="\033[37m"
 NORMAL="\033[0;39m"
 
 # Copy VS Code user settings
+## TODO: port to linux
 printf "${BLUE}Copying VS Code user settings...${NORMAL}\n\n"
 eval "cp ./vscode/settings.json ~/Library/Application\ Support/Code/User"
 
