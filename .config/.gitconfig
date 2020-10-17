@@ -1,0 +1,28 @@
+[gpg]
+	program = /usr/local/bin/gpg
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[user]
+	name = Thomas Harmon
+	email = thomas.alan.harmon@gmail.com
+[core]
+	excludesfile = /Users/thomasharmon/.gitignore
+  pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+    syntax-theme = gruvbox
+    plus-color = "#689d6a"
+    minus-color = "#cc241d"
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none

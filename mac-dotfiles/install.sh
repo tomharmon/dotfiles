@@ -102,6 +102,7 @@ omf install simple-ass-prompt
 
 # Copy Fish config
 printf "${YELLOW}Copying Fish config${NORMAL}\n"
+mkdir ~/.config
 cp -r fish ~/.config/
 
 # set fish to default
@@ -121,6 +122,8 @@ cargo install broot
 cargo install cargo-expand
 cargo install cargo-license
 cargo install cargo-update
+cargo install cargo-edit
+cargo install git-delta
 cargo install cbindgen
 cargo install fd-find
 cargo install flamegraph
@@ -134,13 +137,21 @@ cargo install zoxide
 
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"
-cp -r .vim ~/
+cp -r ../nvim ~/.config
 
 # copy git files
 printf "${YELLOW}Copying git confg${NORMAL}\n"
-cp .gitignore ~/
+cp ../.config/.gitignore ~/
+cp ../.config/.gitconfig ~/
 git config --global core.editor 'nvim'
 git config --global core.excludesfile ~/.gitignore
+
+# set gruvbox as the theme for bat
+mkdir -p "$(bat --config-dir)/themes"
+cd "$(bat --config-dir)/themes"
+git clone git@github.com:austinwagner/gruvbox-sublime.git
+bat cache --build
+
 
 # Set up VS Code Settings and Extensions
 sh scripts/vscode.sh
