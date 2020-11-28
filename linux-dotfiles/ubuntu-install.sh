@@ -55,10 +55,12 @@ cargo install sccache
 cargo install tokei
 cargo install xsv
 cargo install zoxide
+cargo install alacritty
 # TODO: cargo install glow
 
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"
+mkdir -p ~/.vim/undodir
 cp -r ../nvim ~/.config
 
 # copy git files

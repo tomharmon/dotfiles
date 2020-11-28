@@ -115,12 +115,7 @@ nnoremap <silent> <C-p> :FZF<CR>
 let g:rustfmt_autosave = 1
 
 " Persistent undos
-let s:undoDir = "$HOME/.vim/undodir" . $USER
-if !isdirectory(s:undoDir)
-    call mkdir(s:undoDir, "", 0700)
-endif
-let &undodir=s:undoDir
-set undofile
+set undodir=~/.vim/undodir
 
 " :w saves and creates parent directories if needed
 function s:MkNonExDir(file, buf)
