@@ -49,6 +49,10 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 
 Plug 'scrooloose/nerdtree'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 
 filetype plugin indent on
@@ -181,3 +185,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
