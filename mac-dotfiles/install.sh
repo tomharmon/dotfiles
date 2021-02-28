@@ -131,6 +131,7 @@ cargo install git-delta
 cargo install git-journal
 cargo install grex
 cargo install hyperfine
+cargo install ripgrep
 cargo install sccache
 cargo install tokei
 cargo install xsv
