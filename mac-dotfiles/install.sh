@@ -117,7 +117,7 @@ printf "${YELLOW}Installing cargo tools${NORMAL}\n"
 source $HOME/.cargo/env
 cargo install bat
 cargo install bindgen
-cargo install btm
+cargo install bottom
 cargo install broot
 cargo install cargo-expand
 cargo install cargo-license
