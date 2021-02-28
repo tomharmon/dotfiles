@@ -123,10 +123,11 @@ cargo install cargo-expand
 cargo install cargo-license
 cargo install cargo-update
 cargo install cargo-edit
-cargo install git-delta
 cargo install cbindgen
+cargo install exa
 cargo install fd-find
 cargo install flamegraph
+cargo install git-delta
 cargo install git-journal
 cargo install grex
 cargo install hyperfine

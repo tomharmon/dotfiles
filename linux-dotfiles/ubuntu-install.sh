@@ -40,14 +40,15 @@ cargo install bat
 cargo install bindgen
 cargo install btm
 cargo install broot
-cargo install cargo-edit
-cargo install git-delta
 cargo install cargo-expand
 cargo install cargo-license
 cargo install cargo-update
+cargo install cargo-edit
 cargo install cbindgen
+cargo install exa
 cargo install fd-find
 cargo install flamegraph
+cargo install git-delta
 cargo install git-journal
 cargo install grex
 cargo install hyperfine
@@ -55,8 +56,6 @@ cargo install sccache
 cargo install tokei
 cargo install xsv
 cargo install zoxide
-cargo install alacritty
-# TODO: cargo install glow
 
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"
