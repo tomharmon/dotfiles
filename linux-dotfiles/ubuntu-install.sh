@@ -71,10 +71,12 @@ git config --global core.editor 'nvim'
 git config --global core.excludesfile ~/.gitignore
 
 # set gruvbox as the theme for bat
+bat --generate-config-file
 mkdir -p "$(bat --config-dir)/themes"
 cd "$(bat --config-dir)/themes"
 git clone git@github.com:austinwagner/gruvbox-sublime.git
 bat cache --build
+echo "\n--theme=gruvbox" >> $(bat --config-file)
 
 
 # Set up VS Code Settings and Extensions
