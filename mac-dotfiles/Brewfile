@@ -34,11 +34,7 @@ brew 'yarn'
 brew 'glow'
 
 # Apps
-cask 'docker'
-cask 'google-chrome'
-cask 'github'
 cask 'slack'
 cask 'spotify'
-cask 'sublime-text'
 cask 'postman'
 cask 'visual-studio-code'
