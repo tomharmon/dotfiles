@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export ZSH="$HOME/.oh-my-zsh"
 # Path to your oh-my-zsh installation.
 
 # Set name of the theme to load --- if set to "random", it will
@@ -99,7 +100,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-export ZSH="$HOME/.oh-my-zsh"
 autoload -Uz compinit; compinit;
 bindkey "^Xa" _expand_alias
 zstyle ':completion:*' completer _expand_alias _complete _ignored
