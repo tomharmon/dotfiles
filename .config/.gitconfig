@@ -11,6 +11,8 @@
 [core]
 	excludesfile = /Users/thomasharmon/.gitignore
   pager = delta
+	editor = nvim
+	excludesfiles = /Users/thomasharmon/.gitignore
 
 [interactive]
     diffFilter = delta --color-only
@@ -19,8 +21,6 @@
     features = side-by-side line-numbers decorations
     whitespace-error-style = 22 reverse
     syntax-theme = gruvbox
-    plus-color = "#689d6a"
-    minus-color = "#cc241d"
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
