@@ -40,7 +40,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
-
+Plug 'mfussenegger/nvim-dap'
 " end git
 
 
@@ -234,7 +234,31 @@ local opts = {
     },
 }
 
-require('rust-tools').setup(opts)
+local rt = require("rust-tools")
+
+local extension_path = vim.env.HOME .. '~/.vscode/extensions/vadimcn.vscode-lldb-1.7.4/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
+
+local opts = {
+    -- ... other configs
+}
+rt.setup({
+  dap = {
+      adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb_path, liblldb_path)
+  },
+  server = {
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+  auto_focus = true
+})
+
 EOF
 
 " Code navigation shortcuts
@@ -244,10 +268,14 @@ nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+"nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.rename()<CR>
+
+
+
 
 " Quick-fix
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
