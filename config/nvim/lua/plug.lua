@@ -47,4 +47,5 @@ return require('packer').startup(function()
     use 'williamboman/mason.nvim' -- Manage LSPs and DAPs
     use 'puremourning/vimspector' -- Debugger
     use 'mfussenegger/nvim-dap' -- Debugger
+    use 'ruanyl/vim-gh-line' -- Plugin to copy link to github/gitlab 
 end)

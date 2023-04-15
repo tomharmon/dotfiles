@@ -245,6 +245,11 @@ _G.packer_plugins = {
     path = "/Users/thomasharmon/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
     url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
   },
+  ["telescope-live-grep-args.nvim"] = {
+    loaded = true,
+    path = "/Users/thomasharmon/.local/share/nvim/site/pack/packer/start/telescope-live-grep-args.nvim",
+    url = "https://github.com/nvim-telescope/telescope-live-grep-args.nvim"
+  },
   ["telescope-ui-select.nvim"] = {
     loaded = true,
     path = "/Users/thomasharmon/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
@@ -259,6 +264,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/thomasharmon/.local/share/nvim/site/pack/packer/start/trouble.nvim",
     url = "https://github.com/folke/trouble.nvim"
+  },
+  ["vim-gh-line"] = {
+    loaded = true,
+    path = "/Users/thomasharmon/.local/share/nvim/site/pack/packer/start/vim-gh-line",
+    url = "https://github.com/ruanyl/vim-gh-line"
   },
   ["vim-illuminate"] = {
     loaded = true,

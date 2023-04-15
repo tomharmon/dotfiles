@@ -140,10 +140,12 @@ require('telescope').setup {
 -- Get fzf loaded and working with extension
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('ui-select')
+require('telescope').load_extension('live_grep_args')
 
 
 -- Autopairs Setup
 require 'nvim-autopairs'.setup {}
+
 
 
 -- Mason Setup
@@ -322,3 +324,6 @@ local actions = require("diffview.actions")
 
 require("diffview").setup({
 })
+
+
+

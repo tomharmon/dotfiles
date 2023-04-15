@@ -78,6 +78,15 @@ let g:vimspector_bottombar_height = 15
 let g:vimspector_terminal_maxwidth = 70
 ]])
 
+-- vim-gh-line
+-- Also:
+-- Copy link to a clipboard instead of opening a browser
+vim.cmd([[
+let g:gh_line_repo_map_default = 0
+let g:gh_use_canonical = 1
+let g:gh_open_command = 'fn() { echo "$@" | pbcopy; }; fn '
+]])
+
 
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
