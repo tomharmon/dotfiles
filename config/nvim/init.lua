@@ -34,9 +34,6 @@ require('lualine').setup {
 -- PLUGINS initialization           ----
 ----------------------------------------
 
--- Headlines for Markdown
-require "headlines".setup()
-
 -- Fidget - show status of LSP progress
 require "fidget".setup {
     window = {
@@ -161,34 +158,12 @@ require("mason").setup({
 require("mason-lspconfig").setup()
 
 
--- Crates Nvim
-require('crates').setup({
-
-})
-
 ----------------------------------------
 -- LSP Server Configurations        ----
 ----------------------------------------
 
 -- LSP Config
 local nvim_lsp = require 'lspconfig'
-
-
--- RUST
--- -------------------------------------
-local rt = require("rust-tools")
-
-rt.setup({
-    server = {
-        on_attach = function(_, bufnr)
-            -- Hover actions
-            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-            -- Code action groups
-            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-        end,
-    },
-})
-
 
 ----------------------------------------
 -- COMPLETION Setup                 ----
@@ -228,8 +203,6 @@ cmp.setup({
     sources = {
         { name = 'path' }, -- file paths
         { name = 'nvim_lsp', keyword_length = 1, priority = 10 }, -- from language server
-        { name = 'crates', keyword_length = 1, priority = 10 },
-        { name = 'luasnip', keyword_length = 1, priority = 7 }, -- for lua users
         { name = 'nvim_lsp_signature_help', priority = 8 }, -- display function signatures with current parameter emphasized
         { name = 'nvim_lua', keyword_length = 1, priority = 8 }, -- complete neovim's Lua runtime API such vim.lsp.*
         { name = 'buffer', keyword_length = 1, priority = 5 }, -- source current buffer
