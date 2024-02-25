@@ -28,22 +28,21 @@ return {
     -- change some telescope options and a keymap to browse plugin files
     {
         "nvim-telescope/telescope.nvim",
-        keys = {
-      -- add a keymap to browse plugin files
-      -- stylua: ignore
-      {
-        "<leader>fp",
-        function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
-        desc = "Find Plugin File",
-      },
-        },
         -- change some options
         opts = {
             defaults = {
-                layout_strategy = "horizontal",
-                layout_config = { prompt_position = "top" },
-                sorting_strategy = "ascending",
-                winblend = 0,
+                prompt_prefix = "🔍",
+                vimgrep_arguments = {
+                    "rg",
+                    "--color=never",
+                    "--no-heading",
+                    "--with-filename",
+                    "--line-number",
+                    "--column",
+                    "--smart-case",
+                    "--hidden",
+                    "--glob!=.git/",
+                },
             },
         },
     },
@@ -52,13 +51,47 @@ return {
     {
         "telescope.nvim",
         dependencies = {
-            "nvim-telescope/telescope-fzf-native.nvim",
-            build = "make",
-            config = function()
-                require("telescope").load_extension("fzf")
-            end,
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+            },
+            {
+                "nvim-telescope/telescope-live-grep-args.nvim",
+                version = "^1",
+            },
+        },
+        config = function()
+            require("telescope").load_extension("fzf")
+            require("telescope").load_extension("live_grep_args")
+        end,
+    },
+
+    {
+        "ruanyl/vim-gh-line",
+        lazy = false,
+        config = function()
+            vim.g.gh_open_command = 'fn() { echo "$@" | pbcopy; }; fn '
+            -- vim.g.gh_gitlab_domain
+            vim.g.gh_always_interactive = 0
+        end,
+    },
+    {
+        "utilyre/barbecue.nvim",
+        name = "barbecue",
+        version = "*",
+        dependencies = {
+            "SmiteshP/nvim-navic",
+            "nvim-tree/nvim-web-devicons",
+        },
+        lazy = false,
+        opts = {
+            attach_navic = false,
         },
     },
+
+    -- could add:
+    -- j-hui/fidget
+    -- smoka7/hop
 
     -- Use <tab> for completion and snippets (supertab)
     -- first: disable default <tab> and <s-tab> behavior in LuaSnip
