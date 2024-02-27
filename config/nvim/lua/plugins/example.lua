@@ -266,13 +266,6 @@ return {
                     },
                   },
                 },
-                cachePriming = {
-                  numThreads = 12,
-                },
-                numThreads = 12,
-                check = {
-                  command = "clippy",
-                },
                 imports = {
                   granularity = {
                     enforce = true,
@@ -346,10 +339,6 @@ return {
                       enable = true,
                     },
                   },
-                },
-                trace = {
-                  server = "verbose",
-                  extension = true,
                 },
                 typing = {
                   autoClosingAngleBrackets = {

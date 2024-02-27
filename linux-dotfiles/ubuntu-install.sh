@@ -36,14 +36,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 printf "${YELLOW}Installing cargo tools${NORMAL}\n"
 source $HOME/.cargo/env
+cargo install alacritty
 cargo install bat
 cargo install bindgen
 cargo install bottom
 cargo install broot
 cargo install cargo-expand
 cargo install cargo-license
-cargo install cargo-update
-cargo install cargo-edit
 cargo install cbindgen
 cargo install exa
 cargo install fd-find
@@ -52,10 +51,12 @@ cargo install git-delta
 cargo install git-journal
 cargo install grex
 cargo install hyperfine
+cargo install lsd
 cargo install ripgrep
 cargo install sccache
 cargo install tokei
 cargo install xsv
+cargo install zellij
 cargo install zoxide
 
 # copy vim config
@@ -94,6 +95,7 @@ sh scripts/vscode.sh
 printf "\n${GREEN}Installing global npm packages for ${NORMAL}\n"
 npm install -g gatsby-cli prettier eslint
 
+sudo apt install fish
 
 # Follow the instructions on GitHub to generate a new SSH key and add it to your Github account.
 printf "\n${WHITE}==============================================================================

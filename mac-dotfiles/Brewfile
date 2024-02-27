@@ -10,7 +10,6 @@ brew 'cmake'
 # Install some other useful utilities like `sponge`.
 brew 'moreutils'
 brew 'fish'
-brew 'tmux'
 
 # Install Binaries
 brew 'git'
@@ -36,5 +35,3 @@ brew 'glow'
 # Apps
 cask 'slack'
 cask 'spotify'
-cask 'postman'
-cask 'visual-studio-code'
