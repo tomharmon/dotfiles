@@ -23,6 +23,10 @@ if status is-interactive
     alias ji="zi"
     
     set PATH $PATH ~/.cargo/bin
-    
+    set -gx BARTIB_FILE "~/.bartib/activities.bartib"
     zoxide init fish | source
+end
+
+function gh_lines_mac_copy
+    echo $argv | pbcopy
 end

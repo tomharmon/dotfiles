@@ -70,7 +70,7 @@ return {
         "ruanyl/vim-gh-line",
         lazy = false,
         config = function()
-            vim.g.gh_open_command = 'fn() { echo "$@" | pbcopy; }; fn '
+            vim.g.gh_open_command = 'fish -c "gh_line_mac_copy $argv'
             -- vim.g.gh_gitlab_domain
             vim.g.gh_always_interactive = 0
         end,
@@ -149,276 +149,41 @@ return {
             })
         end,
     },
-
-
-    -- bug fix for rust-tools
     {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-          {
-            "Saecki/crates.nvim",
-            event = "BufRead Cargo.toml",
-            config = function(_, opts)
-              require("crates").setup(opts)
-    
-              local register_keys = function()
-                local wk = require("which-key")
-    
-                wk.register({
-                  ["<cr>"] = { require("crates").show_popup, "Crates Popup" },
-                }, {
-                  buffer = vim.api.nvim_get_current_buf(),
-                })
-              end
-    
-              register_keys()
-              vim.api.nvim_create_autocmd("BufReadPost", { pattern = "Cargo.toml", callback = register_keys })
-            end,
-            opts = {
-              src = {
-                cmp = {
-                  enabled = true,
-                },
+      'mrcjkb/rustaceanvim',
+      opts = {
+        server = {
+          default_settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                runBuildScripts = true,
               },
-              popup = {
-                autofocus = true,
-                hide_on_select = true,
-                border = "rounded",
+              procMacro = {
+                enable = true,
+                attributes = { enable = true },
+                ignored = {},
               },
-            },
-          },
-        },
-        opts = function(_, opts)
-          local cmp = require("cmp")
-          opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
-            { name = "crates" },
-          }))
-        end,
-      },
-    
-      -- Add Rust & related to treesitter
-      {
-        "nvim-treesitter/nvim-treesitter",
-        opts = function(_, opts)
-          if type(opts.ensure_installed) == "table" then
-            vim.list_extend(opts.ensure_installed, { "ron", "rust", "toml" })
-          end
-        end,
-      },
-    
-      -- Ensure Rust debugger is installed
-      {
-        "williamboman/mason.nvim",
-        optional = true,
-        opts = function(_, opts)
-          if type(opts.ensure_installed) == "table" then
-            vim.list_extend(opts.ensure_installed, { "codelldb" })
-          end
-        end,
-      },
-    
-      {
-        "mrcjkb/rustaceanvim",
-        ft = { "rust" },
-        opts = {
-          server = {
-            on_attach = function(_, bufnr)
-              -- register which-key mappings
-              local wk = require("which-key")
-              wk.register({
-                ["<leader>cR"] = {
-                  function()
-                    vim.cmd.RustLsp("codeAction")
-                  end,
-                  "Code Action",
+              lru = {
+                capacity = 8192,
+              },
+              files = {
+                excludeDirs = {
+                  ".git",
+                  ".venv",
+                  "bin",
+                  "target",
+                  ".vscocde",
+                  "data",
+                  ".direnv",
+                  ".terraform",
+                  "docker",
                 },
-                ["<leader>dr"] = {
-                  function()
-                    vim.cmd.RustLsp("debuggables")
-                  end,
-                  "Rust debuggables",
-                },
-              }, { mode = "n", buffer = bufnr })
-            end,
-            settings = {
-              -- rust-analyzer language server configuration
-              ["rust-analyzer"] = {
-                assist = {
-                  emitMustUse = true,
-                },
-                completion = {
-                  privateEditable = {
-                    enable = true,
-                  },
-                },
-                diagnostics = {
-                  enable = false,
-                  experimental = {
-                    enable = true,
-                  },
-                  previewRustcOutput = true,
-                  useRustcErrorCode = true,
-                },
-                hover = {
-                  actions = {
-                    references = {
-                      enable = true,
-                    },
-                  },
-                },
-                imports = {
-                  granularity = {
-                    enforce = true,
-                  },
-                  prefer = {
-                    no = {
-                      std = true,
-                    },
-                  },
-                },
-                inlayHint = {
-                  dynamicRegistration = true,
-                  resolveSupport = {
-                    properties = {},
-                  },
-                },
-                interpret = {
-                  tests = true,
-                },
-                lens = {
-                  references = {
-                    enumVariant = {
-                      enable = true,
-                    },
-                    method = {
-                      enable = true,
-                    },
-                    trait = {
-                      enable = true,
-                    },
-                    adt = {
-                      enable = true,
-                    },
-                  },
-                },
-                debug = {
-                  openDebugPane = true,
-                },
-                restartServerOnConfigChange = true,
-                rustfmt = {
-                  overrideCommand = { "rustup", "run", "stable", "rustfmt" },
-                  rangeFormatting = {
-                    enable = true,
-                  },
-                },
-                semanticHighlighting = {
-                  operator = {
-                    enable = true,
-                    specialization = {
-                      enable = true,
-                    },
-                  },
-                  strings = {
-                    enable = true,
-                  },
-                  doc = {
-                    comment = {
-                      inject = {
-                        enable = true,
-                      },
-                    },
-                  },
-                  punctuation = {
-                    enable = true,
-                    separate = {
-                      macro = {
-                        bang = true,
-                      },
-                    },
-                    specialization = {
-                      enable = true,
-                    },
-                  },
-                },
-                typing = {
-                  autoClosingAngleBrackets = {
-                    enable = true,
-                  },
-                },
-                cargo = {
-                  allFeatures = true,
-                  loadOutDirsFromCheck = true,
-                  runBuildScripts = true,
-                },
-                procMacro = {
-                  enable = true,
-                  attributes = { enable = true },
-                },
-                lru = {
-                    capacity = 8192
-                },
-                files = {
-                    excludeDirs = {
-                        ".git",
-                        ".venv",
-                        "bin",
-                        "target",
-                        ".vscode",
-                        "data",
-                        ".idea",
-                        ".direnv",
-                        ".terraform",
-                    }
-                }
               },
             },
           },
         },
-        config = function(_, opts)
-          vim.g.rustaceanvim = vim.tbl_deep_extend("force", {}, opts or {})
-        end,
-      },
-    
-      -- Correctly setup lspconfig for Rust 🚀
-      {
-        "neovim/nvim-lspconfig",
-        opts = {
-          servers = {
-            rust_analyzer = {},
-            taplo = {
-              keys = {
-                {
-                  "K",
-                  function()
-                    if vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
-                      require("crates").show_popup()
-                    else
-                      vim.lsp.buf.hover()
-                    end
-                  end,
-                  desc = "Show Crate Documentation",
-                },
-              },
-            },
-          },
-          setup = {
-            rust_analyzer = function()
-              return true
-            end,
-          },
-        },
-      },
-    
-      {
-        "nvim-neotest/neotest",
-        optional = true,
-        dependencies = {
-          "rouge8/neotest-rust",
-        },
-        opts = {
-          adapters = {
-            ["neotest-rust"] = {},
-          },
-        },
-      },
+      }
+    }
 }
