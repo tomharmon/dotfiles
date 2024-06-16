@@ -156,8 +156,6 @@ return {
           default_settings = {
             ["rust-analyzer"] = {
               cargo = {
-                allFeatures = true,
-                loadOutDirsFromCheck = true,
                 runBuildScripts = true,
               },
               procMacro = {
