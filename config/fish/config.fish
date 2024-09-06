@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     starship init fish | source
     alias vim="nvim"
-    
+
     alias ga="git add -u"
     alias gc="git commit"
     # and rebase
@@ -13,6 +13,7 @@ if status is-interactive
     alias gr="git reset --soft"
     alias gd="git diff"
     alias gu="git reset --soft HEAD~1"
+    alias gb="git branch --sort=-committerdate"
     alias ls="exa -Fl --git-ignore"
     alias la="exa -la"
     alias lt="exa -laT -L 3 -I .git\|.idea\|target --git-ignore"
@@ -21,7 +22,7 @@ if status is-interactive
     alias ....="cd ../../.."
     alias j="z"
     alias ji="zi"
-    
+
     set PATH $PATH ~/.cargo/bin
     set -gx BARTIB_FILE "~/.bartib/activities.bartib"
     zoxide init fish | source

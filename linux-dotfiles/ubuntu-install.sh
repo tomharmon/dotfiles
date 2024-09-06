@@ -60,6 +60,9 @@ cargo install xsv
 cargo install zellij
 cargo install zoxide
 
+# Python package manager written in Rust
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # copy vim config
 printf "${YELLOW}Copying vim config${NORMAL}\n"
 mkdir -p ~/.vim/undodir
