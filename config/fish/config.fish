@@ -1,6 +1,22 @@
+fish_add_path --path --append "$HOME/.docker/bin" "$HOME/.cargo/bin" "$HOME/.local/bin"
+fish_add_path --path --prepend "$HOME/.bun/bin" "$HOME/Library/pnpm" "$HOME/.lmstudio/bin"
+
+set -gx BUN_INSTALL "$HOME/.bun"
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+set -gx BARTIB_FILE "$HOME/.bartib/activities.bartib"
+set -gx KUBECONFIG "$HOME/.kube/k3s-ci.yaml"
+
+if command -q pyenv
+    pyenv init - | source
+    if pyenv commands | string match -q virtualenv-init
+        pyenv virtualenv-init - | source
+    end
+end
+
 if status is-interactive
-    # Commands to run in interactive sessions can go here
-    starship init fish | source
+    if command -q starship
+        starship init fish | source
+    end
     alias vim="nvim"
 
     alias ga="git add -u"
@@ -13,7 +29,6 @@ if status is-interactive
     alias gr="git reset --soft"
     alias gd="git diff"
     alias gu="git reset --soft HEAD~1"
-    alias gb="git branch --sort=-committerdate"
     alias ls="exa -Fl --git-ignore"
     alias la="exa -la"
     alias lt="exa -laT -L 3 -I .git\|.idea\|target --git-ignore"
@@ -22,10 +37,11 @@ if status is-interactive
     alias ....="cd ../../.."
     alias j="z"
     alias ji="zi"
+    alias fmtj="pbpaste | jq . | pbcopy"
 
-    set PATH $PATH ~/.cargo/bin
-    set -gx BARTIB_FILE "~/.bartib/activities.bartib"
-    zoxide init fish | source
+    if command -q zoxide
+        zoxide init fish | source
+    end
 end
 
 function gh_lines_mac_copy
