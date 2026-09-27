@@ -1,3 +1,16 @@
+-- Home Manager links the config into the read-only Nix store.
+local function state_file(name)
+    local dir = vim.fn.stdpath("state")
+    local path = dir .. "/" .. name
+    if vim.fn.filereadable(path) == 0 then
+        vim.fn.mkdir(dir, "p")
+        vim.fn.writefile(vim.fn.readfile(vim.fn.stdpath("config") .. "/" .. name), path)
+    end
+    return path
+end
+
+vim.g.lazyvim_json = state_file("lazyvim.json")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
@@ -7,6 +20,7 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 require("lazy").setup({
+    lockfile = state_file("lazy-lock.json"),
     spec = {
         -- add LazyVim and import its plugins
         { "LazyVim/LazyVim", import = "lazyvim.plugins" },

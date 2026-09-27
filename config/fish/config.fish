@@ -10,14 +10,10 @@ end
 fish_add_path --path --prepend "$PNPM_HOME"
 set -gx KUBECONFIG "$HOME/.kube/k3s-ci.yaml"
 
-if command -q pyenv
-    pyenv init - | source
-    if pyenv commands | string match -q virtualenv-init
-        pyenv virtualenv-init - | source
-    end
-end
-
 if status is-interactive
+    if command -q devenv; and not functions -q _devenv_hook
+        devenv hook fish | source
+    end
     if command -q starship
         starship init fish | source
     end
