@@ -2,7 +2,7 @@
 
 The `mac` machine in `devenv.nix` uses devenv 2.4 Machines to activate a local
 Home Manager configuration. It manages the checked-in shell, editor, terminal,
-and Git files, plus a baseline of CLI packages. It does not run the older
+and Git files, plus CLI packages. It does not run the older
 `mac-dotfiles/install.sh` script or change macOS system settings.
 
 ## New Apple silicon Mac
@@ -26,26 +26,30 @@ and Git files, plus a baseline of CLI packages. It does not run the older
    devenv machines deploy mac
    ```
 
-6. Run `rustup default stable` if there is no Rust toolchain yet. To restore the
-   remaining observed Cargo tools, run `bash scripts/install-cargo-tools.sh`.
-   This can take a long time and is intentionally separate from activation.
+6. Run `rustup default stable` if there is no Rust toolchain yet.
 
 There is no `devenv machines install` for macOS. The local Home Manager role
 needs neither SSH nor passwordless sudo. Machines and their interface are still
 [experimental](https://devenv.sh/machines/). The first devenv run creates
 `devenv.lock`; commit it after a successful build to pin the inputs.
+Run `devenv update` when you want newer Nixpkgs packages, then build again
+before deploying. A lockfile makes each deployment reproducible rather than
+silently changing package versions.
 
 ## What is managed
 
-- `home/mac.nix` installs the commonly available tools through Nix, including
-  Fish, Neovim, Starship, Rustup, Git, Bun, pnpm, Deno, uv, and a subset of the
-  Cargo CLI inventory.
-- `cargo-tools.tsv` records **52 retained crates** from `cargo install --list`
-  on this Mac on 2026-09-27. Its `nix` rows are provided by Home Manager; its
-  `cargo` rows are installed at the observed versions by the opt-in script.
-  `rusty-script` is marked `local`: its source is another repository and cannot
-  be restored from these dotfiles alone. Cargo builds may fail on a different
-  Rust version or architecture; the script continues and reports failures.
+- `home/mac.nix` installs the 52 retained tools observed in `cargo install --list`
+  on 2026-09-27, alongside Fish, Neovim, Starship, Rustup, Git, Bun, pnpm,
+  Deno, and uv. Available tools use Nixpkgs packages; their versions follow
+  `devenv.lock`, rather than the old Cargo installation versions. `eza`
+  replaces `exa`, and `mdbook-linkcheck2` replaces `mdbook-linkcheck`.
+- `home/cargo-packages.nix` defines the remaining tools as pinned Nix Rust
+  packages, including `rusty-script` from its public Git repository. The crate
+  versions and Git heads were checked against upstream on 2026-09-27 and were
+  the latest available then. Their pins must be updated separately from
+  `devenv update`. Generated lockfiles for the two crates that do not publish
+  one live in `home/locks/`. These source builds may take longer than cached
+  Nixpkgs packages. No Cargo install script runs during activation.
 - `config/fish/config.fish` reflects the live Fish config, including Docker,
   Cargo, local binaries, Bun, pnpm, LM Studio, Kubeconfig, pyenv, Starship,
   zoxide, and aliases. The two personal functions are also managed.
