@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   machines.mac = {
     system = "aarch64-darwin";
@@ -7,6 +7,6 @@
 
   machines.linux = {
     system = "x86_64-linux";
-    home-manager = import ./home/linux.nix;
+    home-manager = import ./home/linux.nix { inherit inputs; };
   };
 }

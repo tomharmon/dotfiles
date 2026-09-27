@@ -48,11 +48,12 @@ devenv machines deploy linux
 ```
 
 Linux installs Obsidian, Spotify, Element Desktop, Ghostty, 1Password, Cursor,
-Visual Studio Code, and the Tailscale package through Nixpkgs. Tailscale still
-needs a system daemon and login, which this user-only role does not configure.
-ChatGPT and Claude Desktop are macOS-only in this configuration; their web apps
-remain available on Linux. Spotify and other proprietary apps require the
-`allow_unfree` setting in `devenv.yaml`.
+Visual Studio Code, and Tailscale through Nixpkgs. The official Linux builds of
+ChatGPT and Claude Desktop come from separate, pinned Nix packaging inputs in
+`devenv.yaml`, because the main Nixpkgs input does not package them for Linux.
+These are third-party packaging definitions, not upstream Nix releases. Tailscale
+still needs a system daemon and login, which this user-only role does not
+configure. Proprietary apps require the `allow_unfree` setting in `devenv.yaml`.
 
 ## Packages and updates
 
