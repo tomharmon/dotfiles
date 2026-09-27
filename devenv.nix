@@ -2,8 +2,6 @@
 {
   machines.mac = {
     system = "aarch64-darwin";
-    target.host = "thomasharmon@localhost";
-    nix-darwin = import ./home/darwin.nix;
     home-manager = import ./home/mac.nix;
   };
 

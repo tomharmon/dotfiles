@@ -9,30 +9,31 @@ checked-in Fish, Neovim, Starship, Broot, and Git configuration. The old
 
 1. Complete macOS setup, then install the Xcode Command Line Tools, Nix,
    [devenv 2.4+](https://devenv.sh/getting-started/), and
-   [Homebrew](https://brew.sh/). Homebrew is bootstrapped separately; nix-darwin
-   manages its casks, not the Homebrew installation itself.
+   [Homebrew](https://brew.sh/).
 2. Clone this repository. Check that `thomasharmon` matches your macOS account
-   in `devenv.nix`, `home/mac.nix`, and `home/darwin.nix`.
-3. Enable Remote Login for your account and configure passwordless sudo for
-   nix-darwin activation. Devenv's nix-darwin deploy currently uses SSH, even
-   for the `localhost` target. Do not deploy until you are comfortable with
-   that access requirement.
-4. Back up existing files Home Manager will own, especially
+   in `home/mac.nix`.
+3. Back up existing files Home Manager will own, especially
    `~/.config/fish/config.fish`, `~/.config/nvim`, and `~/.gitconfig`.
-5. Inspect and build before activation, then deploy:
+4. Inspect and build before activation, then deploy the local Home Manager role:
 
    ```sh
    devenv machines info
    devenv build machines.mac
    devenv machines deploy mac
    ```
+5. Install the GUI apps from Homebrew's native manifest, with normal interactive
+   macOS approval when required:
 
-The macOS system role uses nix-darwin's Homebrew module to install Obsidian,
-Spotify, Element Desktop (Matrix), ChatGPT, Claude Desktop, Ghostty, 1Password,
-Cursor, Visual Studio Code, and Tailscale. Cask metadata and installed apps are
-upgraded on activation; undeclared Homebrew packages are left alone. You must
-still sign in to the apps and approve any macOS permissions or system extensions
-they require. The Home Manager role runs after nix-darwin succeeds.
+   ```sh
+   brew bundle --file ./Brewfile
+   ```
+
+The `Brewfile` lists Obsidian, Spotify, Element Desktop (Matrix), ChatGPT,
+Claude Desktop, Ghostty, 1Password, Cursor, Visual Studio Code, and Tailscale.
+`brew bundle` also upgrades outdated apps; `greedy: true` includes casks that
+normally self-update. It does not remove undeclared Homebrew packages. Sign in
+to the apps and approve any macOS permissions they require. No SSH, Remote
+Login, or passwordless sudo is needed for the devenv machine.
 
 ## New Linux
 
@@ -64,8 +65,9 @@ stable` if you need a Rust toolchain.
 
 Devenv's inputs are pinned by `devenv.lock` after the first successful build.
 Run `devenv update`, build, and deploy to update Nixpkgs packages. Custom Rust
-source pins need separate updates. The macOS casks use current Homebrew metadata
-on each activation, so they are less reproducible than Nix packages. Devenv
+source pins need separate updates. Run `brew bundle --file ./Brewfile` again to
+update Mac apps. Homebrew casks use current metadata when run, so they are less
+reproducible than Nix packages. Devenv
 Machines are still [experimental](https://devenv.sh/machines/).
 
 `config/fish/fish_plugins` records the live Fisher plugins but is not linked by
