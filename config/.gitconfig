@@ -1,5 +1,5 @@
 [gpg]
-	program = /usr/local/bin/gpg
+	program = gpg
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
@@ -9,10 +9,9 @@
 	name = Thomas Harmon
 	email = thomas.alan.harmon@gmail.com
 [core]
-	excludesfile = /Users/thomasharmon/.gitignore
-  pager = delta
+	excludesfile = ~/.gitignore
+	pager = delta
 	editor = nvim
-	excludesfiles = /Users/thomasharmon/.gitignore
 
 [interactive]
     diffFilter = delta --color-only

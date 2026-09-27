@@ -1,0 +1,21 @@
+nixpkgs:
+  allow_unfree: true
+
+inputs:
+  nixpkgs:
+    url: github:cachix/devenv-nixpkgs/rolling
+  home-manager:
+    url: github:nix-community/home-manager
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+  chatgpt-desktop:
+    url: github:danielbodart/chatgpt-desktop
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+  claude-desktop:
+    url: github:poeck/claude-desktop-nix-flake
+    inputs:
+      nixpkgs:
+        follows: nixpkgs

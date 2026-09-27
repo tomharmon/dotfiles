@@ -1,0 +1,15 @@
+// Keep current defaults except for the bindings retained from the live setup.
+keybinds {
+    shared_except "locked" {
+        unbind "Alt i" "Alt o"
+    }
+    session {
+        bind "w" {
+            LaunchOrFocusPlugin "zellij:session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "Normal"
+        }
+    }
+}
