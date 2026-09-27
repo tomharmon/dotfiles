@@ -6,5 +6,5 @@ cask "element", greedy: true
 cask "ghostty", greedy: true
 cask "obsidian", greedy: true
 cask "spotify", greedy: true
-cask "tailscale", greedy: true
+cask "tailscale-app", greedy: true
 cask "visual-studio-code", greedy: true
