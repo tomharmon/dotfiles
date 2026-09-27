@@ -1,8 +1,13 @@
 fish_add_path --path --append "$HOME/.docker/bin" "$HOME/.cargo/bin" "$HOME/.local/bin"
-fish_add_path --path --prepend "$HOME/.bun/bin" "$HOME/Library/pnpm" "$HOME/.lmstudio/bin"
+fish_add_path --path --prepend "$HOME/.bun/bin" "$HOME/.lmstudio/bin"
 
 set -gx BUN_INSTALL "$HOME/.bun"
-set -gx PNPM_HOME "$HOME/Library/pnpm"
+if test (uname) = Darwin
+    set -gx PNPM_HOME "$HOME/Library/pnpm"
+else
+    set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+end
+fish_add_path --path --prepend "$PNPM_HOME"
 set -gx KUBECONFIG "$HOME/.kube/k3s-ci.yaml"
 
 if command -q pyenv
@@ -36,13 +41,17 @@ if status is-interactive
     alias ....="cd ../../.."
     alias j="z"
     alias ji="zi"
-    alias fmtj="pbpaste | jq . | pbcopy"
+    if command -q pbpaste; and command -q pbcopy
+        alias fmtj="pbpaste | jq . | pbcopy"
+    end
 
     if command -q zoxide
         zoxide init fish | source
     end
 end
 
-function gh_lines_mac_copy
-    echo $argv | pbcopy
+if command -q pbcopy
+    function gh_lines_mac_copy
+        echo $argv | pbcopy
+    end
 end

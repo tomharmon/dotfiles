@@ -1,66 +1,74 @@
 # Dotfiles
 
-The `mac` machine in `devenv.nix` uses devenv 2.4 Machines to activate a local
-Home Manager configuration. It manages the checked-in shell, editor, terminal,
-and Git files, plus CLI packages. It does not run the older
-`mac-dotfiles/install.sh` script or change macOS system settings.
+Devenv Machines manages two user environments: `mac` (Apple silicon macOS) and
+`linux` (x86_64 Linux). Home Manager installs the shared CLI tools and links the
+checked-in Fish, Neovim, Starship, Broot, and Git configuration. The old
+`mac-dotfiles/` and `linux-dotfiles/` installers are gone.
 
-## New Apple silicon Mac
+## New Mac
 
-1. Finish macOS setup and install the Xcode Command Line Tools (`xcode-select --install`).
-2. Install [Nix and devenv 2.4+](https://devenv.sh/getting-started/), then clone this repository.
-3. Check `home/mac.nix` for the correct username and home directory. This machine
-   is currently specific to `thomasharmon` on `aarch64-darwin`.
-4. From the repository root, inspect and build without activating:
+1. Complete macOS setup, then install the Xcode Command Line Tools, Nix,
+   [devenv 2.4+](https://devenv.sh/getting-started/), and
+   [Homebrew](https://brew.sh/). Homebrew is bootstrapped separately; nix-darwin
+   manages its casks, not the Homebrew installation itself.
+2. Clone this repository. Check that `thomasharmon` matches your macOS account
+   in `devenv.nix`, `home/mac.nix`, and `home/darwin.nix`.
+3. Enable Remote Login for your account and configure passwordless sudo for
+   nix-darwin activation. Devenv's nix-darwin deploy currently uses SSH, even
+   for the `localhost` target. Do not deploy until you are comfortable with
+   that access requirement.
+4. Back up existing files Home Manager will own, especially
+   `~/.config/fish/config.fish`, `~/.config/nvim`, and `~/.gitconfig`.
+5. Inspect and build before activation, then deploy:
 
    ```sh
    devenv machines info
    devenv build machines.mac
-   ```
-
-5. Back up any existing files that Home Manager would manage, especially
-   `~/.config/fish/config.fish`, `~/.config/nvim`, and `~/.gitconfig`. Home Manager
-   will refuse to overwrite an existing regular file. Then activate:
-
-   ```sh
    devenv machines deploy mac
    ```
 
-6. Run `rustup default stable` if there is no Rust toolchain yet.
+The macOS system role uses nix-darwin's Homebrew module to install Obsidian,
+Spotify, Element Desktop (Matrix), ChatGPT, Claude Desktop, Ghostty, 1Password,
+Cursor, Visual Studio Code, and Tailscale. Cask metadata and installed apps are
+upgraded on activation; undeclared Homebrew packages are left alone. You must
+still sign in to the apps and approve any macOS permissions or system extensions
+they require. The Home Manager role runs after nix-darwin succeeds.
 
-There is no `devenv machines install` for macOS. The local Home Manager role
-needs neither SSH nor passwordless sudo. Machines and their interface are still
-[experimental](https://devenv.sh/machines/). The first devenv run creates
-`devenv.lock`; commit it after a successful build to pin the inputs.
-Run `devenv update` when you want newer Nixpkgs packages, then build again
-before deploying. A lockfile makes each deployment reproducible rather than
-silently changing package versions.
+## New Linux
 
-## What is managed
+Install Nix and devenv 2.4+, clone the repository, and check the username and
+home directory in `home/linux.nix`. The Linux machine is a local, user-only
+Home Manager role for an x86_64 graphical Linux host, not a NixOS installation.
+Back up existing managed files, then run:
 
-- `home/mac.nix` installs the 52 retained tools observed in `cargo install --list`
-  on 2026-09-27, alongside Fish, Neovim, Starship, Rustup, Git, Bun, pnpm,
-  Deno, and uv. Available tools use Nixpkgs packages; their versions follow
-  `devenv.lock`, rather than the old Cargo installation versions. `eza`
-  replaces `exa`, and `mdbook-linkcheck2` replaces `mdbook-linkcheck`.
-- `home/cargo-packages.nix` defines the remaining tools as pinned Nix Rust
-  packages, including `rusty-script` from its public Git repository. The crate
-  versions and Git heads were checked against upstream on 2026-09-27 and were
-  the latest available then. Their pins must be updated separately from
-  `devenv update`. Generated lockfiles for the two crates that do not publish
-  one live in `home/locks/`. These source builds may take longer than cached
-  Nixpkgs packages. No Cargo install script runs during activation.
-- `config/fish/config.fish` reflects the live Fish config, including Docker,
-  Cargo, local binaries, Bun, pnpm, LM Studio, Kubeconfig, pyenv, Starship,
-  zoxide, and aliases. The two personal functions are also managed.
-- `config/fish/fish_plugins` records the live Fisher plugin list but is **not**
-  linked by Home Manager. Install Fisher and then its listed plugins using
-  [Fisher's instructions](https://github.com/jorgebucaran/fisher); Fisher owns
-  its generated files and plugin list on the machine.
+```sh
+devenv build machines.linux
+devenv machines deploy linux
+```
 
-Tool-generated Fish `conf.d` files and `fish_variables` remain unmanaged.
-External applications and their installers, including Docker Desktop, LM Studio,
-Obsidian, and Worktrunk, are not provisioned here. Some checked-in
-editor files differ from the live `~/.config/nvim`; review those differences
-before replacing that directory on this Mac. The old setup scripts are retained
-for reference and are not run by the new machine.
+Linux installs Obsidian, Spotify, Element Desktop, Ghostty, 1Password, Cursor,
+Visual Studio Code, and the Tailscale package through Nixpkgs. Tailscale still
+needs a system daemon and login, which this user-only role does not configure.
+ChatGPT and Claude Desktop are macOS-only in this configuration; their web apps
+remain available on Linux. Spotify and other proprietary apps require the
+`allow_unfree` setting in `devenv.yaml`.
+
+## Packages and updates
+
+The shared CLI inventory lives in `home/common.nix`. It includes the retained
+Cargo tools available from Nixpkgs; `xan` replaces the removed `xsv` package,
+and `eza` replaces `exa`. Nine remaining Rust tools are pinned in
+`home/cargo-packages.nix`, with generated lockfiles in `home/locks/`. No Cargo
+install script runs during activation. After deployment, run `rustup default
+stable` if you need a Rust toolchain.
+
+Devenv's inputs are pinned by `devenv.lock` after the first successful build.
+Run `devenv update`, build, and deploy to update Nixpkgs packages. Custom Rust
+source pins need separate updates. The macOS casks use current Homebrew metadata
+on each activation, so they are less reproducible than Nix packages. Devenv
+Machines are still [experimental](https://devenv.sh/machines/).
+
+`config/fish/fish_plugins` records the live Fisher plugins but is not linked by
+Home Manager. Tool-generated Fish files remain unmanaged. Some checked-in
+Neovim files differ from the current live configuration; review them before
+replacing `~/.config/nvim` on this Mac.
