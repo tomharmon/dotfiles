@@ -40,7 +40,7 @@ needs neither SSH nor passwordless sudo. Machines and their interface are still
 - `home/mac.nix` installs the commonly available tools through Nix, including
   Fish, Neovim, Starship, Rustup, Git, Bun, pnpm, Deno, uv, and a subset of the
   Cargo CLI inventory.
-- `cargo-tools.tsv` records **all 54 crates** reported by `cargo install --list`
+- `cargo-tools.tsv` records **52 retained crates** from `cargo install --list`
   on this Mac on 2026-09-27. Its `nix` rows are provided by Home Manager; its
   `cargo` rows are installed at the observed versions by the opt-in script.
   `rusty-script` is marked `local`: its source is another repository and cannot

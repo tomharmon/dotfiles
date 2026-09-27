@@ -1,6 +1,4 @@
 # crate|observed version|source|install path
-alacritty|0.17.0|crates.io|cargo
-bartib|1.1.0|crates.io|cargo
 bat|0.26.1|crates.io|nix
 bindgen|0.60.1|crates.io|cargo
 bottom|0.14.6|crates.io|nix

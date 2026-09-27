@@ -9,7 +9,6 @@
     "fish/config.fish".source = ../config/fish/config.fish;
     "fish/functions/obswiki.fish".source = ../config/fish/functions/obswiki.fish;
     "fish/functions/wt.fish".source = ../config/fish/functions/wt.fish;
-    "alacritty/alacritty.toml".source = ../config/alacritty/alacritty.toml;
     "broot/conf.toml".source = ../config/broot.conf.toml;
     "starship.toml".source = ../config/starship.toml;
     "nvim" = {

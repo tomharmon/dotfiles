@@ -36,9 +36,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 printf "${YELLOW}Installing cargo tools${NORMAL}\n"
 source $HOME/.cargo/env
-cargo install alacritty
 cargo install bat
-cargo install bartib
 cargo install bindgen
 cargo install bottom
 cargo install broot

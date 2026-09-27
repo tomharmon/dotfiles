@@ -3,7 +3,6 @@ fish_add_path --path --prepend "$HOME/.bun/bin" "$HOME/Library/pnpm" "$HOME/.lms
 
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx PNPM_HOME "$HOME/Library/pnpm"
-set -gx BARTIB_FILE "$HOME/.bartib/activities.bartib"
 set -gx KUBECONFIG "$HOME/.kube/k3s-ci.yaml"
 
 if command -q pyenv
