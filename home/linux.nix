@@ -1,10 +1,10 @@
 { inputs }:
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
-  imports = [ ./common.nix ];
+  imports = [ ./common.nix ./docker-linux.nix ];
 
   home.username = "thomasharmon";
   home.homeDirectory = "/home/thomasharmon";
@@ -13,25 +13,32 @@ in
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;
 
-  xdg.configFile."ghostty/config".source = ../config/ghostty.conf;
+  xdg.configFile."ghostty/config".text = builtins.readFile ../config/ghostty.conf + ''
+    command = ${config.home.profileDirectory}/bin/fish --login
+  '';
 
   home.packages = (with pkgs; [
-    _1password-cli # Nixpkgs prefixes both 1Password names with _ because Nix identifiers cannot start with a digit.
     _1password-gui
-    claude-code
     code-cursor
-    codex
-    cursor-cli
-    docker-client # Includes Compose and Buildx; the daemon is host-managed.
     element-desktop
+    firefox
+    google-chrome
+    signal-desktop
     ghostty
     nerd-fonts.hack
     obsidian
     spotify
-    tailscale
     vscode
   ]) ++ [
     inputs.chatgpt-desktop.packages.${system}.default
     inputs.claude-desktop.packages.${system}.default
   ];
+
+  xdg.desktopEntries.figma = {
+    name = "Figma";
+    genericName = "Collaborative Design";
+    exec = "${pkgs.google-chrome}/bin/google-chrome-stable --app=https://www.figma.com/";
+    terminal = false;
+    categories = [ "Graphics" ];
+  };
 }

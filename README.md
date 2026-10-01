@@ -2,7 +2,9 @@
 
 Devenv Machines manages two user environments: `mac` (Apple silicon macOS) and
 `linux` (x86_64 Linux). Home Manager installs the shared CLI tools and links the
-checked-in Fish, Neovim, Starship, Broot, Worktrunk, Ghostty, Zellij, and Git configuration.
+Fish, Neovim, Starship, Broot, Worktrunk, Ghostty, Zellij, and Git configuration.
+Native Home Manager modules own program installation and shell integration where
+useful; custom Lua, Fish, TOML, and KDL sources remain readable in `config/`.
 The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
 
 ## New Mac
@@ -15,6 +17,8 @@ The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
 3. Back up existing files Home Manager will own, especially
    `~/.config/fish/config.fish`, `~/.config/nvim`, `~/.gitconfig`,
    `~/.config/worktrunk/config.toml`, `~/.config/zellij`,
+   `~/.config/bat/config`, `~/.config/gh/config.yml`,
+   `~/.config/zed/settings.json`, `~/.ssh/config`,
    `~/.config/fish/functions/fisher.fish`, and
    `~/Library/Application Support/com.mitchellh.ghostty/config`.
 4. Inspect and build before activation, then deploy the local Home Manager role:
@@ -32,11 +36,12 @@ The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
    ```
 
 The `Brewfile` lists Obsidian, Spotify, Element Desktop (Matrix), ChatGPT,
-Claude Desktop, Ghostty, 1Password, Cursor, Visual Studio Code, Tailscale, and
-Docker Desktop. It also installs the 1Password CLI and the
-[Codex](https://developers.openai.com/codex/cli), Claude Code, and
-[Cursor Agent](https://formulae.brew.sh/cask/cursor-cli) CLIs separately from
-their desktop apps. Hack Nerd Font is installed through Homebrew too.
+Claude Desktop, Ghostty, 1Password, Cursor, Visual Studio Code, Tailscale,
+Docker Desktop, Firefox, Google Chrome, Zed, Figma, and Signal.
+These casks use vendor distributions rather than the Mac App Store.
+The 1Password, Codex, Claude Code, and Cursor Agent CLIs are installed through
+Nix on both platforms, not Homebrew. Hack Nerd Font is installed through
+Homebrew on macOS.
 Launch Docker Desktop once to finish its setup.
 `brew bundle` also upgrades outdated apps; `greedy: true` includes casks that
 normally self-update. It does not remove undeclared Homebrew packages. Sign in
@@ -56,18 +61,33 @@ devenv machines deploy linux
 ```
 
 Linux installs Obsidian, Spotify, Element Desktop, Ghostty, 1Password, Cursor,
-Visual Studio Code, and Tailscale through Nixpkgs, along with the 1Password,
-Codex, Claude Code, and Cursor Agent CLIs. The Docker client includes
-`docker compose` and `docker buildx`; install and configure a Docker daemon on
-the Linux host separately, or connect to a remote daemon using a Docker context.
-This user-only setup does not enable system services or grant Docker socket
-access. Docker Desktop is only installed on macOS by this repository.
+Visual Studio Code, Firefox, Google Chrome, Zed, and Signal through
+Nixpkgs, along with the 1Password,
+Codex, Claude Code, and Cursor Agent CLIs. Home Manager installs the full Docker
+package, including Compose and Buildx, and manages a rootless `docker.service`
+in the user systemd manager. Fish defaults to its user-owned socket without
+overriding an explicitly exported `DOCKER_HOST` or `DOCKER_CONTEXT`.
+Docker data lives under `~/.local/share/docker`; no rootful daemon or
+Docker-group access is configured. Docker Desktop remains macOS-only.
 The official Linux
 builds of ChatGPT and Claude Desktop come from separate, pinned Nix packaging inputs in
 `devenv.yaml`, because the main Nixpkgs input does not package them for Linux.
-These are third-party packaging definitions, not upstream Nix releases. Tailscale
-still needs a system daemon and login, which this user-only role does not
-configure. Proprietary apps require the `allow_unfree` setting in `devenv.yaml`.
+These are third-party packaging definitions, not upstream Nix releases.
+Tailscale's normal VPN daemon and CLI are installed together through the host's
+package manager, not duplicated in Home Manager. Login remains interactive.
+Proprietary apps require the `allow_unfree` setting in `devenv.yaml`.
+
+Complete the [Linux host setup](docs/linux-host.md) for Ubuntu or
+Arch/Omarchy: UID-map helpers, subordinate IDs, optional boot-time lingering,
+Ubuntu's targeted RootlessKit AppArmor profile, and the Tailscale system service.
+The desktop compositor (Hyprland or otherwise) does not change these steps.
+On Linux, `tests/docker-home.nix` provides an isolated Home Manager test for
+the rootless unit, daemon settings, and Fish socket selection. It does not
+activate the service or modify host prerequisites.
+
+Figma has no official Linux desktop app. The Linux application menu includes
+a Figma launcher for the official web app in a dedicated Chrome window;
+no third-party Figma desktop wrapper is installed.
 
 Both machines import `home/common.nix`, so Worktrunk and its settings, GitHub
 CLI, Node.js 24, Fish integration, and the reconciled Neovim configuration
@@ -104,6 +124,122 @@ not direnv. Review a project's configuration, then run `devenv allow` there to
 trust it; use `devenv revoke` to withdraw trust. You can also enter explicitly
 with `devenv shell`. Check `type -a node` after migration for older installations
 shadowing the managed fallback.
+
+### Fish ownership
+
+`home/fish.nix` enables Home Manager's `programs.fish` module. Home Manager
+generates `~/.config/fish/config.fish`, installs `pkgs.fish` from the rolling
+Nixpkgs input, and provides its session variables and package paths.
+General initialization places the Home Manager profile's `bin` first, except
+inside an inherited devenv environment where project tools retain precedence.
+Aliases are declared in `programs.fish.shellAliases`; interactive hooks live in
+`config/fish/interactive.fish`. `config/fish/theme.fish` preserves the live
+syntax-highlighting and completion-pager colors, including bold, underline,
+reverse, and background attributes. Home Manager includes it in interactive
+initialization as global variables, after existing `conf.d` snippets run.
+The live `fish_frozen_theme.fish` remains untouched until migration.
+The pnpm data directory is declared through
+`home.sessionVariables`. Old Bun, Deno, Cargo, and pnpm executable directories
+are not added to PATH; Nix owns the managed CLI executables.
+Rustup still owns project Rust toolchains.
+Starship and Zoxide use their Home Manager modules for Fish integration; do not
+also initialize them in the fragments. Starship's settings are parsed from
+`config/starship.toml` and rendered by its module.
+
+The managed `fish/conf.d/00-nix.fish` loads the multi-user Nix environment before
+Home Manager's session setup. The existing Fish function sources and pinned
+Fisher function remain managed individually. Fisher-installed plugins and Fish
+universal variables remain local.
+
+Changing this repository does not change a live shell until activation. On an
+existing machine, build first, then back up and move colliding files immediately
+before deployment; do not leave the live configuration absent between steps.
+Ghostty explicitly launches the managed Fish on both platforms. Home Manager
+does not change the operating system's login-shell registration.
+After successful deployment, register the stable managed Fish path and make
+it your login shell. On macOS, from Fish:
+
+```fish
+set managed_fish "$HOME/.nix-profile/bin/fish"
+grep -Fxq "$managed_fish" /etc/shells; or echo "$managed_fish" | sudo tee -a /etc/shells
+chsh -s "$managed_fish"
+```
+
+Keep Homebrew Fish until the login-shell switch succeeds. Update the rolling
+input with `devenv update`, then build and deploy to obtain newer Fish releases
+as they reach Nixpkgs; Fish is not frozen to a version in this repository.
+Existing Fish universal variables and vendor-written `conf.d` files are not
+deleted automatically. Move obsolete runtime startup snippets aside during
+migration so they do not reintroduce competing executable paths.
+
+Check Fish syntax and the vault helper without activating anything:
+
+```sh
+fish -n config/fish/*.fish config/fish/functions/*.fish
+fish tests/obswiki.fish
+fish --no-config tests/fish-theme.fish
+```
+
+`tests/fish-home.nix` is an isolated Home Manager build test for the generated
+Fish config, session-variable setup, Git/LFS/Delta, Broot, Neovim, and Zellij.
+It checks that Zellij autostart stays disabled and LazyVim's init file is not
+replaced. It can run
+without building the full CLI inventory or changing any live config:
+
+```sh
+nix build --impure --no-link --expr '
+  let
+    homeManager = builtins.getFlake "github:nix-community/home-manager";
+    pkgs = import (builtins.getFlake "nixpkgs").outPath { config.allowUnfree = true; };
+  in import ./tests/fish-home.nix { inherit pkgs homeManager; }
+'
+```
+
+### Native tool modules
+
+`home/git.nix` owns Git identity, settings, LFS filters, and Delta integration.
+Global ignore patterns are read from `config/.gitignore` and rendered to
+`~/.config/git/ignore`; Git's configuration lives at `~/.config/git/config`.
+The old linked `~/.gitconfig` must be moved aside during migration, otherwise
+its higher-precedence settings can override the generated XDG config. No
+signing keys, credentials, or authentication settings are added by this module.
+
+`home/tools.nix` manages Broot, Neovim, and Zellij. Broot's TOML is parsed into
+native settings, rendered as `~/.config/broot/conf.hjson`, and its Fish
+integration provides the `br` navigation function. Move any old Broot config
+directory aside immediately before first activation so an old `conf.toml`
+does not compete with the generated configuration.
+Neovim is the default editor (`EDITOR` and `VISUAL`); `PAGER` is `less`, which is
+installed too. Neovim's Lua sources, LazyVim plugins, and writable plugin state
+retain their existing ownership; no second plugin manager is introduced.
+
+Zellij's module installs the program and renders the existing KDL and layouts.
+Fish, Bash, and Zsh autostart integrations are explicitly disabled. Sessions
+start only when you run `zellij` or choose a layout yourself. Worktrunk and
+Ghostty remain managed through their existing config sources.
+
+Bat uses the exact Gruvbox theme captured from the live setup, including its
+MIT license, in `config/bat/`. Home Manager rebuilds Bat's theme cache during
+activation. Zed's Vim mode, font sizes, theme choice, and disabled telemetry
+metrics are declared in `home/tools.nix`; its settings are repo-owned rather
+than writable through Zed. Zed itself comes from the vendor Homebrew cask on
+macOS and Nixpkgs on Linux.
+GitHub CLI keeps HTTPS Git transport and the `gh co` alias; authentication
+in `hosts.yml` and the keychain remains machine-local.
+
+`home/ssh.nix` installs OpenSSH and declares the existing host aliases without
+the obsolete OrbStack include or duplicated hostname directive. Private keys,
+authorized keys, and known-host state are not managed or copied.
+
+There is no global `KUBECONFIG` override. Kubernetes uses its normal default
+configuration unless a project or explicit command selects another file:
+
+```sh
+kubectl --kubeconfig "$HOME/.kube/k3s-ci.yaml" config current-context
+```
+
+Start a fresh shell after deployment; an already-exported `KUBECONFIG` in the
+parent environment is not unset by removing its declaration.
 
 Python uses `uv` instead of pyenv. In a project, use `uv python pin 3.13` to
 record its Python version and `uv sync` / `uv run` for its environment. For a
