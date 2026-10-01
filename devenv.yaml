@@ -9,13 +9,3 @@ inputs:
     inputs:
       nixpkgs:
         follows: nixpkgs
-  chatgpt-desktop:
-    url: github:danielbodart/chatgpt-desktop
-    inputs:
-      nixpkgs:
-        follows: nixpkgs
-  claude-desktop:
-    url: github:poeck/claude-desktop-nix-flake
-    inputs:
-      nixpkgs:
-        follows: nixpkgs

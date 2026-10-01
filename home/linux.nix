@@ -1,8 +1,4 @@
-{ inputs }:
-{ config, pkgs, ... }:
-let
-  system = pkgs.stdenv.hostPlatform.system;
-in
+{ config, ... }:
 {
   imports = [ ./common.nix ./docker-linux.nix ];
 
@@ -10,34 +6,19 @@ in
   home.homeDirectory = "/home/thomasharmon";
 
   targets.genericLinux.enable = true;
+  # Desktop apps and graphics drivers belong to the host package manager.
+  targets.genericLinux.gpu.enable = false;
   nixpkgs.config.allowUnfree = true;
-  fonts.fontconfig.enable = true;
 
   xdg.configFile."ghostty/config".text = builtins.readFile ../config/ghostty.conf + ''
     command = ${config.home.profileDirectory}/bin/fish --login
   '';
 
-  home.packages = (with pkgs; [
-    _1password-gui
-    code-cursor
-    element-desktop
-    firefox
-    google-chrome
-    signal-desktop
-    ghostty
-    nerd-fonts.hack
-    obsidian
-    spotify
-    vscode
-  ]) ++ [
-    inputs.chatgpt-desktop.packages.${system}.default
-    inputs.claude-desktop.packages.${system}.default
-  ];
-
   xdg.desktopEntries.figma = {
     name = "Figma";
     genericName = "Collaborative Design";
-    exec = "${pkgs.google-chrome}/bin/google-chrome-stable --app=https://www.figma.com/";
+    exec = "google-chrome-stable --app=https://www.figma.com/";
+    settings.TryExec = "google-chrome-stable";
     terminal = false;
     categories = [ "Graphics" ];
   };

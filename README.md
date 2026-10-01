@@ -5,6 +5,7 @@ Devenv Machines manages two user environments: `mac` (Apple silicon macOS) and
 Fish, Neovim, Starship, Broot, Worktrunk, Ghostty, Zellij, and Git configuration.
 Native Home Manager modules own program installation and shell integration where
 useful; custom Lua, Fish, TOML, and KDL sources remain readable in `config/`.
+Desktop apps use Homebrew on macOS and native distro/vendor packages on Linux.
 The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
 
 ## New Mac
@@ -53,40 +54,57 @@ Login, or passwordless sudo is needed for the devenv machine.
 Install Nix and devenv 2.4+, clone the repository, and check the username and
 home directory in `home/linux.nix`. The Linux machine is a local, user-only
 Home Manager role for an x86_64 graphical Linux host, not a NixOS installation.
-Back up existing managed files, then run:
+Install the [native desktop apps](docs/linux-desktop.md) and complete the
+[Linux host prerequisites](docs/linux-host.md) for Ubuntu or Arch/Omarchy.
+Then back up existing managed files, build, and deploy:
 
 ```sh
 devenv build machines.linux
 devenv machines deploy linux
 ```
 
-Linux installs Obsidian, Spotify, Element Desktop, Ghostty, 1Password, Cursor,
-Visual Studio Code, Firefox, Google Chrome, Zed, and Signal through
-Nixpkgs, along with the 1Password,
-Codex, Claude Code, and Cursor Agent CLIs. Home Manager installs the full Docker
+The native desktop inventory retains Obsidian, Spotify, Element Desktop,
+Ghostty, 1Password, Cursor, Visual Studio Code, Firefox, Google Chrome, Zed,
+Signal, ChatGPT, and Claude Desktop where supported. Arch's official and AUR
+package manifests live in `packages/`; vendor-only installations and the
+Ubuntu inventory are documented in the desktop guide. Claude Desktop currently
+supports Debian/Ubuntu, not Arch; the guide records that limitation explicitly
+rather than adding an unsupported wrapper. Figma uses its official web app.
+
+Nix still installs the 1Password, Codex, Claude Code, and Cursor Agent CLIs.
+Home Manager installs the full Docker
 package, including Compose and Buildx, and manages a rootless `docker.service`
 in the user systemd manager. Fish defaults to its user-owned socket without
 overriding an explicitly exported `DOCKER_HOST` or `DOCKER_CONTEXT`.
 Docker data lives under `~/.local/share/docker`; no rootful daemon or
 Docker-group access is configured. Docker Desktop remains macOS-only.
-The official Linux
-builds of ChatGPT and Claude Desktop come from separate, pinned Nix packaging inputs in
-`devenv.yaml`, because the main Nixpkgs input does not package them for Linux.
-These are third-party packaging definitions, not upstream Nix releases.
 Tailscale's normal VPN daemon and CLI are installed together through the host's
 package manager, not duplicated in Home Manager. Login remains interactive.
-Proprietary apps require the `allow_unfree` setting in `devenv.yaml`.
+The retained proprietary CLI packages use `allow_unfree` in `devenv.yaml`.
+
+Graphics drivers, Hyprland, desktop portals, fonts, and login/session setup stay
+host-owned. Native GUI apps use the host graphics stack; this role deliberately
+disables Home Manager's Nix GPU-library setup. NixGL is not required for this
+desktop app inventory. Ghostty and Zed settings remain Home Manager-owned,
+so avoid Omarchy theme/reset operations that rewrite those selected configs.
 
 Complete the [Linux host setup](docs/linux-host.md) for Ubuntu or
 Arch/Omarchy: UID-map helpers, subordinate IDs, optional boot-time lingering,
 Ubuntu's targeted RootlessKit AppArmor profile, and the Tailscale system service.
 The desktop compositor (Hyprland or otherwise) does not change these steps.
+Check the desktop ownership boundary and native manifests without fetching
+dependencies or activating anything:
+
+```sh
+nix eval --file tests/linux-desktop.nix
+```
+
 On Linux, `tests/docker-home.nix` provides an isolated Home Manager test for
 the rootless unit, daemon settings, and Fish socket selection. It does not
 activate the service or modify host prerequisites.
 
 Figma has no official Linux desktop app. The Linux application menu includes
-a Figma launcher for the official web app in a dedicated Chrome window;
+a Figma launcher for the official web app in a dedicated, native Chrome window;
 no third-party Figma desktop wrapper is installed.
 
 Both machines import `home/common.nix`, so Worktrunk and its settings, GitHub
@@ -156,8 +174,9 @@ existing machine, build first, then back up and move colliding files immediately
 before deployment; do not leave the live configuration absent between steps.
 Ghostty explicitly launches the managed Fish on both platforms. Home Manager
 does not change the operating system's login-shell registration.
-After successful deployment, register the stable managed Fish path and make
-it your login shell. On macOS, from Fish:
+On Omarchy, preserve the system login shell and session initialization; use
+Fish inside Ghostty instead. On macOS, after successful deployment, register
+the stable managed Fish path and make it your login shell, from Fish:
 
 ```fish
 set managed_fish "$HOME/.nix-profile/bin/fish"
@@ -223,7 +242,7 @@ MIT license, in `config/bat/`. Home Manager rebuilds Bat's theme cache during
 activation. Zed's Vim mode, font sizes, theme choice, and disabled telemetry
 metrics are declared in `home/tools.nix`; its settings are repo-owned rather
 than writable through Zed. Zed itself comes from the vendor Homebrew cask on
-macOS and Nixpkgs on Linux.
+macOS and native Linux packages. Home Manager manages its settings only.
 GitHub CLI keeps HTTPS Git transport and the `gh co` alias; authentication
 in `hosts.yml` and the keychain remains machine-local.
 
@@ -257,8 +276,8 @@ Both platforms also install:
 
 Ghostty uses Gruvbox Dark Hard, Hack Nerd Font Mono, and the same Shift+Enter
 binding on both platforms, at its native macOS config path and
-`~/.config/ghostty/config` on Linux. Linux installs the font through Nix and
-enables Home Manager's Fontconfig integration.
+`~/.config/ghostty/config` on Linux. Linux installs Hack Nerd Font natively,
+through Arch's `ttf-hack-nerd` package or the upstream font release on Ubuntu.
 
 Zellij keeps current built-in defaults except for the intentional overrides in
 `config/zellij/config.kdl`: Alt+i/Alt+o do not move tabs, and session-mode `w`
@@ -330,7 +349,9 @@ stable` if you need a Rust toolchain.
 Devenv's inputs are pinned by `devenv.lock` after the first successful build.
 Run `devenv update`, build, and deploy to update Nixpkgs packages. Custom Rust
 source pins need separate updates. Run `brew bundle --file ./Brewfile` again to
-update Mac apps and native CLIs. Homebrew casks use current metadata when run,
+update Mac apps. Update Linux desktop apps through their native package sources,
+as described in [Linux desktop setup](docs/linux-desktop.md).
+Homebrew casks use current metadata when run,
 so they are less reproducible than Nix packages. Devenv Machines are still
 [experimental](https://devenv.sh/machines/).
 

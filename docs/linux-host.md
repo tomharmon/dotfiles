@@ -5,6 +5,10 @@ systemd user service. The host owns the small set of privileged prerequisites
 and normal Tailscale VPN integration. These steps are for the future Linux
 machine, not the current Mac. They are not run automatically by deployment.
 
+Desktop applications, fonts, and GPU drivers also belong to the host. Complete
+the [native desktop installation](linux-desktop.md) before deploying the user
+configs. Neither this guide nor Home Manager replaces Omarchy's desktop setup.
+
 ## Host Packages
 
 ### Ubuntu

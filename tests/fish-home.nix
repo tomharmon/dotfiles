@@ -46,7 +46,7 @@ assert cfg.programs.gh.settings.aliases.co == "pr checkout";
 assert !cfg.programs.zed-editor.mutableUserSettings;
 assert cfg.programs.zed-editor.userSettings.vim_mode;
 assert cfg.programs.zed-editor.userSettings.theme.dark == "Gruvbox Dark Hard";
-assert cfg.programs.zed-editor.package == (if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.zed-editor);
+assert cfg.programs.zed-editor.package == null;
 assert cfg.programs.ssh.package == pkgs.openssh;
 assert cfg.programs.ssh.includes == [ ];
 assert cfg.programs.ssh.settings.proxmox.data.IdentityFile == "~/.ssh/proxmox-ssh-key";

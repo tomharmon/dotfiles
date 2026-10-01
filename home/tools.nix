@@ -28,7 +28,8 @@
 
   programs.zed-editor = {
     enable = true;
-    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.zed-editor;
+    # Homebrew on macOS and native Linux packages install the desktop app.
+    package = null;
     mutableUserSettings = false;
     userSettings = {
       telemetry.metrics = false;

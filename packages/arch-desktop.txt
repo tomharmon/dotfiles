@@ -1,0 +1,7 @@
+element-desktop
+firefox
+ghostty
+obsidian
+signal-desktop
+ttf-hack-nerd
+zed
