@@ -20,7 +20,7 @@ The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
    `~/.config/worktrunk/config.toml`, `~/.config/zellij`,
    `~/.config/bat/config`, `~/.config/gh/config.yml`,
    `~/.config/zed/settings.json`, `~/.ssh/config`,
-   `~/.config/fish/functions/fisher.fish`, and
+   `~/.config/fish/functions/fisher.fish`, `~/.cargo/config.toml`, and
    `~/Library/Application Support/com.mitchellh.ghostty/config`.
 4. Inspect and build before activation, then deploy the local Home Manager role:
 

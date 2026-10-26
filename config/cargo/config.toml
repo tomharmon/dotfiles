@@ -1,0 +1,3 @@
+[build]
+# Resolved from PATH so Homebrew and Nix installs both work across upgrades.
+rustc-wrapper = "kache"

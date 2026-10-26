@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   cargoPackages = import ./cargo-packages.nix { inherit pkgs; };
 in
@@ -23,6 +23,7 @@ in
   };
 
   home.file.".vimrc".source = ../config/.vimrc;
+  home.file.".cargo/config.toml".source = ../config/cargo/config.toml;
 
   home.packages = (with pkgs; [
     _1password-cli
@@ -55,6 +56,7 @@ in
     git-cliff # Generate changelogs from Git history.
     gnupg # Encrypt data and manage signing keys.
     grex # Generate regular expressions from examples.
+    herdr # Terminal workspace manager for AI coding agents.
     hyperfine # Benchmark command-line programs.
     imagemagick # Convert and process images.
     jless # Interactively browse JSON.
@@ -75,7 +77,6 @@ in
     rust-bindgen # Generate Rust bindings for C libraries.
     rust-cbindgen # Generate C bindings for Rust libraries.
     rustup # Manage Rust toolchains.
-    sccache # Cache compiler outputs.
     sqlx-cli # Manage SQLx databases and migrations.
     stripe-cli # Develop and test Stripe integrations.
     swiftlint # Lint Swift code on macOS and Linux.
@@ -91,4 +92,13 @@ in
     xh # Send HTTP requests from the CLI.
     yt-dlp # Download media from supported sites.
   ]) ++ builtins.attrValues cargoPackages;
+
+  # herdr keeps plugins in its own state directory; install reviewr once and
+  # leave updates to `herdr plugin` so local plugin config is preserved.
+  home.activation.herdrReviewr = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if ! ${pkgs.herdr}/bin/herdr plugin list 2>/dev/null | grep -q 'persiyanov\.reviewr'; then
+      PATH="${pkgs.git}/bin:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes persiyanov/herdr-reviewr \
+        || echo "warning: failed to install herdr-reviewr; retry with: herdr plugin install --yes persiyanov/herdr-reviewr" >&2
+    fi
+  '';
 }

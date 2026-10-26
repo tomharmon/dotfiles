@@ -28,6 +28,8 @@ in
     hash = "sha256-QfAIsBZTzq0PWbl/igdpz6lyjIfIao7MBeVEYnjmISY=";
   };
 
+  kache = pkgs.callPackage ./kache.nix { };
+
   zeitgrep = crate {
     pname = "zeitgrep";
     version = "0.8.0";
