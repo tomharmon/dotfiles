@@ -2,6 +2,8 @@ nixpkgs:
   allow_unfree: true
 
 inputs:
+  nixpkgs-cli:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
   nixpkgs:
     url: github:cachix/devenv-nixpkgs/rolling
   home-manager:

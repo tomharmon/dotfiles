@@ -15,6 +15,7 @@ in
       [cache]
       local_max_size = "150GB"
     '';
+    "fish/functions/copen.fish".source = ../config/fish/functions/copen.fish;
     "fish/functions/obswiki.fish".source = ../config/fish/functions/obswiki.fish;
     "fish/functions/wt.fish".source = ../config/fish/functions/wt.fish;
     "fish/functions/fisher.fish".source = pkgs.fetchurl {
@@ -50,7 +51,8 @@ in
     cocogitto # Manage conventional commits and versions.
     deno # JavaScript and TypeScript runtime.
     devenv # Project environments and native shell auto-activation.
-    dioxus-cli # Build Dioxus web and native apps.
+    # Both Deno and Dioxus provide dx; prefer the Dioxus app CLI.
+    (lib.hiPrio dioxus-cli) # Build Dioxus web and native apps.
     dua # Inspect and reclaim disk space.
     dust # Summarize directory disk usage.
     eza # List files with richer metadata.

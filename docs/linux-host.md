@@ -2,8 +2,8 @@
 
 Home Manager owns rootless Docker's Nix package, daemon configuration, and
 systemd user service. The host owns the small set of privileged prerequisites
-and normal Tailscale VPN integration. These steps are for the future Linux
-machine, not the current Mac. They are not run automatically by deployment.
+and normal Tailscale VPN integration. These steps run on the Linux host,
+not the Mac. They are not run automatically by deployment.
 
 Desktop applications, fonts, and GPU drivers also belong to the host. Complete
 the [native desktop installation](linux-desktop.md) before deploying the user
@@ -41,6 +41,54 @@ sudo systemctl enable --now tailscaled.service
 Omarchy may already configure rootful Docker and Docker-group access. That
 existing daemon has separate containers, images, and volumes from rootless
 Docker; they are not migrated or deleted by this repository.
+
+## Omarchy Fish
+
+On Omarchy only, install the [official Fish integration](https://github.com/omacom/omarchy-fish)
+through the host package manager before deploying the Linux role:
+
+```sh
+xargs -r -a packages/omarchy-shell.txt omarchy pkg add
+devenv build machines.linux
+devenv machines deploy linux
+```
+
+The native package supplies Fish vendor functions, completions, environment
+defaults, and fzf.fish. Nix-managed Fish discovers the host's vendor directories
+through `XDG_DATA_DIRS`; no Fisher installation or copied vendor tree is needed.
+Home Manager continues to own Fish itself, the prompt, aliases, colors, and
+Starship/Zoxide integration. Its Linux-only `conf.d/init.fish` overrides the
+package's same-named initializer to retain the official vi/fzf bindings without
+initializing Starship, Zoxide, or mise twice. The host's separate
+`mise-activate.fish` continues to initialize mise.
+
+Do not run `omarchy-setup-fish` over these dotfiles: its current helper replaces
+the whole `.bashrc` with a template using the old Omarchy install path. Instead,
+Linux activation on Omarchy appends one guarded source line to the existing
+`.bashrc`, makes a `.bashrc.before-omarchy-fish.*` backup on the first change,
+and leaves the rest of the file intact. Repeated activation is a no-op. A
+symlinked `.bashrc` is refused; add the hook in its owning configuration instead.
+
+The hook launches `$HOME/.nix-profile/bin/fish` only for a top-level interactive
+Bash shell with no command string and no Fish parent, carrying through login
+mode. Explicit `bash -c` / `bash -ic`, scripts, and nested Bash remain Bash.
+The account's login shell and Omarchy's system/session files are unchanged.
+Fish uses Omarchy's current environment bootstrap to retain `OMARCHY_PATH`,
+dev-link overrides, and local tool paths even when a terminal launches it
+directly. The shared Home Manager editor remains authoritative.
+
+Open a new terminal or SSH session after deployment. Verify:
+
+```fish
+status fish-path
+echo $OMARCHY_PATH
+type compress fip ff
+functions ls
+```
+
+The helper functions should come from `/usr/share/fish/vendor_functions.d`,
+while `ls` retains the shared dotfiles alias. This host-only package is not
+added to the generic Arch desktop manifest or installed on Ubuntu/macOS.
 
 ## Subordinate IDs
 
@@ -148,6 +196,8 @@ tailscale status
 
 Follow the login URL. No authentication keys or Tailscale state belong in the
 dotfiles repository.
+Continue with [Tailscale setup](tailscale.md) to connect the MacBook and verify
+connectivity between the two machines.
 
 ## References
 

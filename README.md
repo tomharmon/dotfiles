@@ -54,6 +54,9 @@ Login, or passwordless sudo is needed for the devenv machine.
 Install Nix and devenv 2.4+, clone the repository, and check the username and
 home directory in `home/linux.nix`. The Linux machine is a local, user-only
 Home Manager role for an x86_64 graphical Linux host, not a NixOS installation.
+Home Manager takes devenv from the separate `nixpkgs-cli` input in `devenv.yaml`
+and requires version 2.4+, so activation retains support for `devenv machines`
+even when the CLI in devenv's main nixpkgs input is older.
 Install the [native desktop apps](docs/linux-desktop.md) and complete the
 [Linux host prerequisites](docs/linux-host.md) for Ubuntu or Arch/Omarchy.
 Then back up existing managed files, build, and deploy:
@@ -80,6 +83,8 @@ Docker data lives under `~/.local/share/docker`; no rootful daemon or
 Docker-group access is configured. Docker Desktop remains macOS-only.
 Tailscale's normal VPN daemon and CLI are installed together through the host's
 package manager, not duplicated in Home Manager. Login remains interactive.
+Follow [Tailscale setup](docs/tailscale.md) to connect the Linux desktop and
+MacBook, check connectivity, and optionally enable SSH.
 The retained proprietary CLI packages use `allow_unfree` in `devenv.yaml`.
 
 Graphics drivers, Hyprland, desktop portals, fonts, and login/session setup stay
@@ -131,8 +136,10 @@ Pin Node in each project's own devenv when it needs a specific version, for exam
 ```
 
 Home Manager installs Fisher 4.4.5 from a pinned, hash-checked source on both
-platforms. No other Fish plugins are installed, and nvm.fish is deliberately
-excluded: devenv owns project Node selection. The old `fish_plugins` inventory
+platforms. Omarchy additionally supplies its official Fish vendor integration
+through the host package manager, including fzf.fish; see the
+[host setup](docs/linux-host.md#omarchy-fish). No other Fish plugins are installed,
+and nvm.fish is deliberately excluded: devenv owns project Node selection. The old `fish_plugins` inventory
 has been removed. Update Fisher's source pin in `home/common.nix`, not with
 `fisher update fisher`, because Home Manager owns its function file. Plugins
 you add with Fisher and their generated files remain machine-local.
@@ -174,8 +181,15 @@ existing machine, build first, then back up and move colliding files immediately
 before deployment; do not leave the live configuration absent between steps.
 Ghostty explicitly launches the managed Fish on both platforms. Home Manager
 does not change the operating system's login-shell registration.
-On Omarchy, preserve the system login shell and session initialization; use
-Fish inside Ghostty instead. On macOS, after successful deployment, register
+On Omarchy, preserve the system login shell and session initialization. The Linux
+role adds the official integration's guarded interactive Bash-to-Fish launch,
+without replacing `.bashrc`; Ghostty and Foot can also launch Fish directly.
+`home/omarchy-fish.nix` bridges the host's Omarchy environment into Fish and
+overrides the vendor `init.fish` so Starship and Zoxide are initialized only by
+Home Manager (mise already has a host vendor snippet). User aliases, colors,
+and functions retain precedence. Other Linux distributions do not activate
+these Omarchy-specific hooks; macOS does not import the module.
+On macOS, after successful deployment, register
 the stable managed Fish path and make it your login shell, from Fish:
 
 ```fish
@@ -191,12 +205,19 @@ Existing Fish universal variables and vendor-written `conf.d` files are not
 deleted automatically. Move obsolete runtime startup snippets aside during
 migration so they do not reintroduce competing executable paths.
 
-Check Fish syntax and the vault helper without activating anything:
+`copen` prints a clickable VS Code Remote SSH link to the current directory,
+using the current user and hostname. Use `copen <ssh-host>` to select an SSH
+config alias instead. The receiving machine needs VS Code with Remote - SSH.
+The link uses VS Code's [remote resource URL format](https://code.visualstudio.com/docs/configure/command-line#opening-vs-code-with-urls).
+
+Check Fish syntax and the helpers without activating anything:
 
 ```sh
 fish -n config/fish/*.fish config/fish/functions/*.fish
 fish tests/obswiki.fish
+fish --no-config tests/copen.fish
 fish --no-config tests/fish-theme.fish
+bash tests/omarchy-fish.bash
 ```
 
 `tests/fish-home.nix` is an isolated Home Manager build test for the generated
@@ -213,6 +234,9 @@ nix build --impure --no-link --expr '
   in import ./tests/fish-home.nix { inherit pkgs homeManager; }
 '
 ```
+
+Use `tests/omarchy-home.nix` in the same command for the Linux-only Omarchy
+integration and idempotent Bash-hook installation checks.
 
 ### Native tool modules
 

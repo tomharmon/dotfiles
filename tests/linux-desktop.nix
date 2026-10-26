@@ -12,6 +12,8 @@ in
 assert !(linux.home ? packages);
 assert linux.targets.genericLinux.enable;
 assert !linux.targets.genericLinux.gpu.enable;
+assert builtins.elem ../home/omarchy-fish.nix linux.imports;
+assert readPackages ../packages/omarchy-shell.txt == [ "omarchy-fish" ];
 assert tools.programs.zed-editor.package == null;
 assert tools.programs.zed-editor.enable;
 assert linux.xdg.desktopEntries.figma.exec == "google-chrome-stable --app=https://www.figma.com/";

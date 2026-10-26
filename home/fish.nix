@@ -22,7 +22,7 @@
       gr = "git reset --soft";
       gd = "git diff";
       gu = "git reset --soft HEAD~1";
-      ls = "eza -Fl --git-ignore";
+      ls = "eza --classify=always --long --git-ignore";
       la = "eza -la";
       lt = "eza -laT -L 3 -I .git\\|.idea\\|target --git-ignore";
       ".." = "cd ..";

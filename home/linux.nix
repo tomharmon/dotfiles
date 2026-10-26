@@ -1,9 +1,9 @@
 { config, ... }:
 {
-  imports = [ ./common.nix ./docker-linux.nix ];
+  imports = [ ./common.nix ./docker-linux.nix ./omarchy-fish.nix ];
 
-  home.username = "thomasharmon";
-  home.homeDirectory = "/home/thomasharmon";
+  home.username = "tom";
+  home.homeDirectory = "/home/tom";
 
   targets.genericLinux.enable = true;
   # Desktop apps and graphics drivers belong to the host package manager.
