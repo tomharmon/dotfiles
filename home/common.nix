@@ -7,8 +7,14 @@ in
 
   home.stateVersion = "26.05";
 
+  home.sessionVariables.KACHE_MAX_SIZE = "150GB";
+
   xdg.enable = true;
   xdg.configFile = {
+    "kache/config.toml".text = ''
+      [cache]
+      local_max_size = "150GB"
+    '';
     "fish/functions/obswiki.fish".source = ../config/fish/functions/obswiki.fish;
     "fish/functions/wt.fish".source = ../config/fish/functions/wt.fish;
     "fish/functions/fisher.fish".source = pkgs.fetchurl {
@@ -97,7 +103,7 @@ in
   # leave updates to `herdr plugin` so local plugin config is preserved.
   home.activation.herdrReviewr = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if ! ${pkgs.herdr}/bin/herdr plugin list 2>/dev/null | grep -q 'persiyanov\.reviewr'; then
-      PATH="${pkgs.git}/bin:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes persiyanov/herdr-reviewr \
+      PATH="${pkgs.git}/bin:${pkgs.curl}/bin:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes persiyanov/herdr-reviewr \
         || echo "warning: failed to install herdr-reviewr; retry with: herdr plugin install --yes persiyanov/herdr-reviewr" >&2
     fi
   '';
