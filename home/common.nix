@@ -19,8 +19,8 @@ in
     "fish/functions/obswiki.fish".source = ../config/fish/functions/obswiki.fish;
     "fish/functions/wt.fish".source = ../config/fish/functions/wt.fish;
     "fish/functions/fisher.fish".source = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/jorgebucaran/fisher/a6bf0e5b9e356d57d666bc6def114f16f1e5e209/functions/fisher.fish";
-      sha256 = "59640d07bda182f2ad0fdfe9dc8a799fb79f46e6e5fc460354ffe2e21f759688";
+      url = "https://raw.githubusercontent.com/jorgebucaran/fisher/a04308be92daa6cfecdbb0ca58b1e8508664cff2/functions/fisher.fish";
+      sha256 = "sha256-D7bIGuMAPpW1Zxdm+mwlw1lwZuKZZbd3L2wbAHOHNW0=";
     };
     "worktrunk/config.toml".source = ../config/worktrunk.toml;
     "nvim" = {

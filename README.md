@@ -38,7 +38,8 @@ The old `mac-dotfiles/` and `linux-dotfiles/` installers are gone.
 
 The `Brewfile` lists Obsidian, Spotify, Element Desktop (Matrix), ChatGPT,
 Claude Desktop, Ghostty, 1Password, Cursor, Visual Studio Code, Tailscale,
-Docker Desktop, Firefox, Google Chrome, Zed, Figma, and Signal.
+Docker Desktop, Firefox, Google Chrome, Zed, Figma, Signal, and Herdr. The
+Herdr terminal CLI is installed through Nix on both platforms.
 These casks use vendor distributions rather than the Mac App Store.
 The 1Password, Codex, Claude Code, and Cursor Agent CLIs are installed through
 Nix on both platforms, not Homebrew. Hack Nerd Font is installed through
@@ -135,7 +136,7 @@ Pin Node in each project's own devenv when it needs a specific version, for exam
 }
 ```
 
-Home Manager installs Fisher 4.4.5 from a pinned, hash-checked source on both
+Home Manager installs Fisher 4.4.8 from a pinned, hash-checked source on both
 platforms. Omarchy additionally supplies its official Fish vendor integration
 through the host package manager, including fzf.fish; see the
 [host setup](docs/linux-host.md#omarchy-fish). No other Fish plugins are installed,

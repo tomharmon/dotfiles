@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   home.packages = [ pkgs.less ];
 
@@ -40,6 +40,11 @@
         mode = "system";
         light = "One Light";
         dark = "Gruvbox Dark Hard";
+      };
+    } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+      context_servers = {
+        cua = { command = "/Applications/Cua Spaces.app/Contents/MacOS/cua"; args = [ "mcp" ]; };
+        cua-driver = { command = "cua-driver"; args = [ "mcp" ]; };
       };
     };
   };

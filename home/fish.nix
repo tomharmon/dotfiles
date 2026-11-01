@@ -4,6 +4,7 @@
     enable = true;
     package = pkgs.fish;
     shellInit = ''
+      fish_add_path --path --append "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/.docker/bin" "$HOME/.lmstudio/bin"
       if not set -q DEVENV_PROFILE
           fish_add_path --path --prepend ${lib.escapeShellArg "${config.home.profileDirectory}/bin"}
       end
@@ -53,6 +54,9 @@
       "${config.home.homeDirectory}/Library/pnpm"
     else
       "${config.home.homeDirectory}/.local/share/pnpm";
+  } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    BARTIB_FILE = "${config.home.homeDirectory}/.bartib/activities.bartib";
+    KUBECONFIG = "${config.home.homeDirectory}/.kube/k3s-ci.yaml";
   };
 
   programs.zoxide = {

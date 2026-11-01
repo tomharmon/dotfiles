@@ -11,6 +11,7 @@ cask "figma", greedy: true
 cask "signal", greedy: true
 cask "font-hack-nerd-font", greedy: true
 cask "ghostty", greedy: true
+cask "herdr-app", greedy: true
 cask "obsidian", greedy: true
 cask "spotify", greedy: true
 cask "tailscale-app", greedy: true
