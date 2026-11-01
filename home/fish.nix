@@ -33,6 +33,15 @@
     };
   };
 
+  programs.direnv = {
+    enable = true;
+    enableFishIntegration = true;
+    enableBashIntegration = false;
+    enableZshIntegration = false;
+    # Devenv keeps its native auto-activation; direnv handles .envrc files.
+    nix-direnv.enable = false;
+  };
+
   programs.starship = {
     enable = true;
     enableFishIntegration = true;

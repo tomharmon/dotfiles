@@ -144,11 +144,17 @@ has been removed. Update Fisher's source pin in `home/common.nix`, not with
 `fisher update fisher`, because Home Manager owns its function file. Plugins
 you add with Fisher and their generated files remain machine-local.
 
-Fish uses devenv's [native auto-activation](https://devenv.sh/auto-activation/),
-not direnv. Review a project's configuration, then run `devenv allow` there to
+Fish uses devenv's [native auto-activation](https://devenv.sh/auto-activation/)
+for devenv projects. Review a project's configuration, then run `devenv allow` there to
 trust it; use `devenv revoke` to withdraw trust. You can also enter explicitly
 with `devenv shell`. Check `type -a node` after migration for older installations
 shadowing the managed fallback.
+
+Home Manager also installs direnv and its Fish hook for standalone `.envrc`
+files. Review a file before running `direnv allow`; approval stays local to the
+machine. The nix-direnv integration is disabled so devenv retains native
+auto-activation. Do not also install direnv through the host package manager or
+add a second hook in `fish/conf.d`.
 
 ### Fish ownership
 

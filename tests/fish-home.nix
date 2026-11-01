@@ -30,6 +30,13 @@ assert !(cfg.home.sessionVariables ? KUBECONFIG);
 assert !(cfg.home.sessionVariables ? BUN_INSTALL);
 assert cfg.programs.starship.enableFishIntegration;
 assert cfg.programs.zoxide.enableFishIntegration;
+assert cfg.programs.direnv.enable;
+assert cfg.programs.direnv.enableFishIntegration;
+assert !cfg.programs.direnv.enableBashIntegration;
+assert !cfg.programs.direnv.enableZshIntegration;
+assert !cfg.programs.direnv.nix-direnv.enable;
+assert builtins.elem cfg.programs.direnv.package cfg.home.packages;
+assert pkgs.lib.hasInfix "bin/direnv hook fish" cfg.programs.fish.interactiveShellInit;
 assert pkgs.lib.hasInfix (builtins.readFile ../config/fish/theme.fish) cfg.programs.fish.interactiveShellInit;
 assert pkgs.lib.hasInfix "devenv hook fish" cfg.programs.fish.interactiveShellInit;
 assert !(pkgs.lib.hasInfix "devenv hook fish" cfg.programs.fish.shellInit);
@@ -72,6 +79,7 @@ pkgs.runCommand "dotfiles-fish-check" { nativeBuildInputs = [ pkgs.fish ]; } ''
   fish --no-config ${../tests/fish-theme.fish} ${../config/fish/theme.fish}
   grep -q 'hm-session-vars.fish' ${generated.source}
   grep -q 'devenv hook fish' ${generated.source}
+  grep -q '${cfg.programs.direnv.package}/bin/direnv hook fish' ${generated.source}
   grep -q 'starship.*init fish' ${generated.source}
   grep -q 'zoxide.*init fish' ${generated.source}
   if grep -q 'zellij.*setup.*auto-start' ${generated.source}; then
