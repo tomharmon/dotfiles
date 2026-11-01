@@ -254,6 +254,10 @@ integration and idempotent Bash-hook installation checks.
 ### Native tool modules
 
 `home/git.nix` owns Git identity, settings, LFS filters, and Delta integration.
+Home Manager installs [OmniDiff](https://github.com/ivankovic/omnidiff) on both
+platforms. Run `omnidiff BEFORE AFTER` for its interactive viewer or
+`git difftool --tool=omnidiff` for Git changes. Delta remains the Git pager;
+OmniDiff is registered as an optional difftool, not the default.
 Global ignore patterns are read from `config/.gitignore` and rendered to
 `~/.config/git/ignore`; Git's configuration lives at `~/.config/git/config`.
 The old linked `~/.gitconfig` must be moved aside during migration, otherwise
@@ -378,7 +382,8 @@ nvim --headless -u NONE -i NONE -l tests/neovim-state.lua
 
 The shared CLI inventory lives in `home/common.nix`. It includes the retained
 Cargo tools available from Nixpkgs; `xan` replaces the removed `xsv` package,
-and `eza` replaces `exa`. Five remaining Rust tools are pinned in
+and `eza` replaces `exa`. Rust tools unavailable or too old in the pinned Nixpkgs,
+including OmniDiff 0.3.0, are pinned in
 `home/cargo-packages.nix`, using their upstream lockfiles. No Cargo
 install script runs during activation. After deployment, run `rustup default
 stable` if you need a Rust toolchain.

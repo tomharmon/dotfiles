@@ -43,6 +43,8 @@ assert !(pkgs.lib.hasInfix "devenv hook fish" cfg.programs.fish.shellInit);
 assert cfg.programs.fish.shellAliases.gp == "git pull --rebase";
 assert cfg.programs.git.lfs.enable;
 assert cfg.programs.delta.enableGitIntegration;
+assert cfg.programs.git.settings.difftool.omnidiff.cmd == ''omnidiff "$LOCAL" "$REMOTE"'';
+assert !(cfg.programs.git.settings ? diff.tool);
 assert builtins.elem "*.sql" cfg.programs.git.ignores;
 assert builtins.elem "*.sqlite" cfg.programs.git.ignores;
 assert cfg.programs.git.settings.user.name == "Thomas Harmon";

@@ -15,6 +15,7 @@
       core.editor = "nvim";
       push.autoSetupRemote = true;
       rebase.autosquash = true;
+      difftool.omnidiff.cmd = ''omnidiff "$LOCAL" "$REMOTE"'';
     };
   };
 

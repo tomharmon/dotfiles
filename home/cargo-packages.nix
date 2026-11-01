@@ -30,6 +30,12 @@ in
 
   kache = pkgs.callPackage ./kache.nix { };
 
+  omnidiff = crate {
+    pname = "omnidiff";
+    version = "0.3.0";
+    hash = "sha256-vBRCkNYpEx5K9FLcpK8lVO5Pa0Zi2rfzeXs9TqMvlnc=";
+  };
+
   zeitgrep = crate {
     pname = "zeitgrep";
     version = "0.8.0";
