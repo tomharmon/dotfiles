@@ -40,6 +40,12 @@ The `Brewfile` lists Obsidian, Spotify, Element Desktop (Matrix), ChatGPT,
 Claude Desktop, Ghostty, 1Password, Cursor, Visual Studio Code, Tailscale,
 Docker Desktop, Firefox, Google Chrome, Zed, Figma, Signal, and Herdr. The
 Herdr terminal CLI is installed through Nix on both platforms.
+Home Manager activation also installs the Herdr plugins
+[`persiyanov/herdr-reviewr`](https://github.com/persiyanov/herdr-reviewr) and
+[`rjyo/herdr-window-title-sync`](https://github.com/rjyo/herdr-window-title-sync)
+when missing. Existing plugin versions and local configuration are preserved;
+manage updates with `herdr plugin`. Window Title Sync uses the managed Bun
+runtime and may show local agent prompt text in terminal window/tab titles.
 These casks use vendor distributions rather than the Mac App Store.
 The 1Password, Codex, Claude Code, and Cursor Agent CLIs are installed through
 Nix on both platforms, not Homebrew. Hack Nerd Font is installed through

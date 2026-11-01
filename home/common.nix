@@ -101,12 +101,16 @@ in
     yt-dlp # Download media from supported sites.
   ]) ++ builtins.attrValues cargoPackages;
 
-  # herdr keeps plugins in its own state directory; install reviewr once and
+  # herdr keeps plugins in its own state directory; install them once and
   # leave updates to `herdr plugin` so local plugin config is preserved.
-  home.activation.herdrReviewr = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if ! ${pkgs.herdr}/bin/herdr plugin list 2>/dev/null | grep -q 'persiyanov\.reviewr'; then
-      PATH="${pkgs.git}/bin:${pkgs.curl}/bin:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes persiyanov/herdr-reviewr \
+  home.activation.herdrPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if ! ${pkgs.herdr}/bin/herdr plugin list --json | ${pkgs.jq}/bin/jq -e '.result.plugins | any(.plugin_id == "persiyanov.reviewr")' >/dev/null; then
+      PATH="${lib.makeBinPath [ pkgs.git pkgs.curl pkgs.gawk ]}:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes persiyanov/herdr-reviewr \
         || echo "warning: failed to install herdr-reviewr; retry with: herdr plugin install --yes persiyanov/herdr-reviewr" >&2
+    fi
+    if ! ${pkgs.herdr}/bin/herdr plugin list --json | ${pkgs.jq}/bin/jq -e '.result.plugins | any(.plugin_id == "rjyo.window-title-sync")' >/dev/null; then
+      PATH="${pkgs.git}/bin:${pkgs.curl}/bin:$PATH" run ${pkgs.herdr}/bin/herdr plugin install --yes rjyo/herdr-window-title-sync \
+        || echo "warning: failed to install herdr-window-title-sync; retry with: herdr plugin install --yes rjyo/herdr-window-title-sync" >&2
     fi
   '';
 }
